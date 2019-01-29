@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+             xmlns:tools="http://schemas.android.com/tools"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             tools:context=".fragments.AdicionarListaDialogFragment"
+             android:background="@drawable/fragment_background"
+             android:padding="15dp">
+
+    <TextView android:id="@+id/tvDialogTitulo"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:layout_centerHorizontal="true"
+              android:text="@string/criar_nova_lista_titulo"/>
+
+    <Spinner android:id="@+id/spCores"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:layout_below="@id/tvDialogTitulo"/>
+
+    <EditText android:id="@+id/etNomeLista"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:layout_below="@id/spCores"
+              android:hint="@string/nome_da_lista_hint"/>
+
+    <Button android:id="@+id/btnCriarLista"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/etNomeLista"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="5dp"
+            android:background="@drawable/button_gradient"
+            android:textColor="@android:color/white"
+            android:text="@string/btn_criar"/>
+
+</RelativeLayout>

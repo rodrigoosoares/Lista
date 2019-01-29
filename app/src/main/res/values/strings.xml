@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">Lista</string>
+
+    <!--Main Activity-->
+    <!--Dialog Criar lista-->
+    <string name="btn_criar">Criar</string>
+    <string name="nome_da_lista_hint">Nome da lista</string>
+    <string name="criar_nova_lista_titulo">Criar uma nova lista</string>
+
+    <!--Listas-->
+    <string name="novo_item_branco">Novo item</string>
+</resources>

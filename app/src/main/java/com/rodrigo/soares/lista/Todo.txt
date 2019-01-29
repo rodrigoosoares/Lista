@@ -1,0 +1,9 @@
+Interface
+
+
+
+-Sistema
+
+-Modo Noturno
+-Não fechar o teclado ao criar um item
+-Não deixar criar um item sem nome
