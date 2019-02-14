@@ -5,7 +5,8 @@
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".activities.ListaSelecionadaActivity">
+        tools:context=".activities.ListaSelecionadaActivity"
+        android:background="?attr/backgroundcolor">
 
     <include layout="@layout/toolbar_layout"/>
 
@@ -16,19 +17,13 @@
               android:layout_below="@id/toolbar"
               android:layout_marginTop="10dp"
               android:text="Itens"
-              android:textSize="20sp"/>
+              android:textSize="20sp"
+              android:textColor="?attr/textcolor"/>
 
     <ListView android:id="@+id/lvItens"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
               android:layout_below="@id/tvListaSelecionadaTitulo"/>
-
-    <TextView android:id="@+id/tvSemItens"
-              android:layout_width="wrap_content"
-              android:layout_height="wrap_content"
-              android:layout_centerInParent="true"
-              android:text="Essa lista não possuí nenhum item."
-              android:visibility="gone"/>
 
     <ImageButton android:id="@+id/btnAddItem"
                  android:layout_width="wrap_content"
@@ -47,7 +42,7 @@
               android:layout_alignParentBottom="true"
               android:hint="Adicione um item"
               android:padding="10dp"
-              android:background="@drawable/border_shadow"
+              android:background="?attr/inputbackgroundcolor"
               android:visibility="invisible"/>
 
 
@@ -58,8 +53,8 @@
                                                        android:layout_alignParentBottom="true"
                                                        android:layout_alignParentEnd="true"
                                                        android:layout_margin="20dp"
-                                                       android:backgroundTint="@color/colorPrimary"
+                                                       android:background="@drawable/fab_background"
                                                        app:borderWidth="0dp"
                                                        android:src="@drawable/ic_add"
-                                                       app:fabSize="normal" android:visibility="visible"/>
+                                                       app:fabSize="normal"/>
 </RelativeLayout>

@@ -9,6 +9,7 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import com.rodrigo.soares.lista.DataBase.DBConnection
 import com.rodrigo.soares.lista.R
+import com.rodrigo.soares.lista.extensions.setNightMode
 import com.rodrigo.soares.lista.models.Item
 import com.rodrigo.soares.lista.models.Lista
 import com.rodrigo.soares.lista.presenters.ListaSelecionadaPresenter
@@ -24,6 +25,7 @@ class ListaSelecionadaActivity : AppCompatActivity() {
     private var lista: Lista? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        setNightMode()
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_lista_selecionada)
         setSupportActionBar(toolbar)
@@ -91,6 +93,7 @@ class ListaSelecionadaActivity : AppCompatActivity() {
         return false
     }
 
+    //Remover depois de implementar o recycler view
     override fun onCreateContextMenu(menu: ContextMenu?, v: View?, menuInfo: ContextMenu.ContextMenuInfo?) {
         val inflater = menuInflater
         inflater.inflate(R.menu.item_menu, menu)
@@ -115,10 +118,6 @@ class ListaSelecionadaActivity : AppCompatActivity() {
     }
 
     fun getConnection(): DBConnection = dbConnection as DBConnection
-
-    fun closeConnection(){
-        dbConnection?.close()
-    }
 
     fun addItemAttListaItens(item: Item){
         mPresenter?.addItem(item)

@@ -9,4 +9,5 @@
 
     <!--Listas-->
     <string name="novo_item_branco">Novo item</string>
+    <string name="title_activity_configuracoes">Settings</string>
 </resources>

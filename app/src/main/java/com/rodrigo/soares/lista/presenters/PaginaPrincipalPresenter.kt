@@ -1,6 +1,7 @@
 package com.rodrigo.soares.lista.presenters
 
 import android.content.Intent
+import com.rodrigo.soares.lista.activities.ConfiguracoesActivity
 import com.rodrigo.soares.lista.activities.ListaSelecionadaActivity
 import com.rodrigo.soares.lista.activities.PaginaPrincipalActivity
 import com.rodrigo.soares.lista.fragments.AdicionarListaDialogFragment
@@ -15,7 +16,10 @@ class PaginaPrincipalPresenter(var activity: PaginaPrincipalActivity) {
     fun toListaSelecionadaActivity(listaSelecionada: Lista){
         val intent = Intent(activity, ListaSelecionadaActivity::class.java)
         intent.putExtra("listaSelecionada", listaSelecionada)
-        activity.closeConnection()
         activity.startActivity(intent)
+    }
+
+    fun toConfiguracoesPage() {
+        activity.startActivityForResult(Intent(activity, ConfiguracoesActivity::class.java), activity.getRequestCode())
     }
 }

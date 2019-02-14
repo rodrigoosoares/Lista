@@ -41,8 +41,6 @@ class ListaSelecionadaPresenter(val activity: ListaSelecionadaActivity) {
         Item.adicionarItem(activity.getConnection(), item)
         inputManager?.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0)
         activity.etNomeItem.setText("")
-        if(activity.tvSemItens.visibility == View.VISIBLE)
-            activity.tvSemItens.visibility = View.GONE
     }
 
     fun attListaInfo(lista: Lista){

@@ -7,6 +7,7 @@ import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.support.v4.app.DialogFragment
+import android.support.v7.app.AppCompatDelegate
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Spinner
@@ -18,7 +19,10 @@ import com.rodrigo.soares.lista.models.Lista
 class AdicionarListaDialogFragment : DialogFragment() {
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-
+        if(AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES)
+            activity?.setTheme(R.style.NightAppTheme)
+        else
+            activity?.setTheme(R.style.AppTheme)
         val builder = AlertDialog.Builder(context)
         val inflater = activity?.layoutInflater
         val layout = inflater?.inflate(R.layout.fragment_custom_dialog, null)

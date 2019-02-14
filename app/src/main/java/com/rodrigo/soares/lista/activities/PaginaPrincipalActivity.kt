@@ -1,7 +1,10 @@
 package com.rodrigo.soares.lista.activities
 
+import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
+import android.support.v7.app.AppCompatDelegate
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.helper.ItemTouchHelper
 import android.view.ContextMenu
@@ -12,6 +15,7 @@ import android.widget.AdapterView
 import com.rodrigo.soares.lista.DataBase.DBConnection
 import com.rodrigo.soares.lista.R
 import com.rodrigo.soares.lista.adapters.ReclyclerViewListasAdapter
+import com.rodrigo.soares.lista.extensions.setNightMode
 import com.rodrigo.soares.lista.helpers.DynamicEventHelper
 import com.rodrigo.soares.lista.models.Item
 import com.rodrigo.soares.lista.models.Lista
@@ -28,13 +32,13 @@ class PaginaPrincipalActivity : AppCompatActivity() {
     private val listas: MutableList<Lista> by lazy { mutableListOf<Lista>()}
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        setNightMode()
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         setSupportActionBar(toolbar)
 
         mPresenter = PaginaPrincipalPresenter(this)
         dbConnection = DBConnection(this)
-        //this.deleteDatabase("Listas.db")
         listas.addAll(Lista.getListas(dbConnection!!))
         mAdapter = ReclyclerViewListasAdapter(this, listas)
 
@@ -65,9 +69,29 @@ class PaginaPrincipalActivity : AppCompatActivity() {
         atualizarLista()
     }
 
+    override fun onDestroy() {
+        dbConnection?.close()
+        super.onDestroy()
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        if(requestCode == REQUEST_CONFIG && resultCode == Activity.RESULT_OK)
+            recreate()
+    }
+
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.main_menu, menu)
         return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+        when(item?.itemId){
+            R.id.main_menu_config -> {
+                mPresenter?.toConfiguracoesPage()
+                return true
+            }
+        }
+        return false
     }
 
     override fun onCreateContextMenu(menu: ContextMenu?, v: View?, menuInfo: ContextMenu.ContextMenuInfo?) {
@@ -75,39 +99,21 @@ class PaginaPrincipalActivity : AppCompatActivity() {
         inflater.inflate(R.menu.lista_menu, menu)
     }
 
-    override fun onContextItemSelected(item: MenuItem?): Boolean {
-        when(item?.itemId){
-            R.id.lista_menu_deletar -> {
-                val info = item.menuInfo as AdapterView.AdapterContextMenuInfo
-                Lista.removerListaById(dbConnection!!, listas[info.position].id!!.toInt())
-                Item.removerItemByIdLista(dbConnection!!, listas[info.position].id!!.toInt())
-                atualizarListaDelete()
-                return true
-            }
-        }
-        return false
-    }
-
     fun atualizarLista(){
         listas.clear()
         listas.addAll(Lista.getListas(dbConnection!!))
         mAdapter?.notifyDataSetChanged()
-    }
-    fun atualizarListaDelete(){
-        listas.clear()
-        listas.addAll(Lista.getListas(dbConnection!!))
-        mAdapter = ReclyclerViewListasAdapter(this, listas)
-        rvListas.adapter = mAdapter
     }
 
     fun getConnection(): DBConnection{
             return dbConnection as DBConnection
     }
 
-    fun closeConnection(){
-        dbConnection?.close()
-    }
-
     fun getPresenter() = mPresenter
 
+    fun getRequestCode() = REQUEST_CONFIG
+
+    companion object {
+        val REQUEST_CONFIG = 0
+    }
 }
