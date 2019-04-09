@@ -1,4 +1,4 @@
-package com.rodrigo.soares.lista.DataBase
+package com.rodrigo.soares.lista.database
 
 import android.content.Context
 import android.database.sqlite.SQLiteDatabase

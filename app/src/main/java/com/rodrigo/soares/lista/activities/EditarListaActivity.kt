@@ -4,7 +4,7 @@ import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
-import com.rodrigo.soares.lista.DataBase.DBConnection
+import com.rodrigo.soares.lista.database.DBConnection
 import com.rodrigo.soares.lista.R
 import com.rodrigo.soares.lista.adapters.SpinnerCoresAdapter
 import com.rodrigo.soares.lista.models.Cores

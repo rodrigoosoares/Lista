@@ -7,7 +7,7 @@ import android.support.v7.app.AppCompatActivity
 import android.view.*
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
-import com.rodrigo.soares.lista.DataBase.DBConnection
+import com.rodrigo.soares.lista.database.DBConnection
 import com.rodrigo.soares.lista.R
 import com.rodrigo.soares.lista.extensions.setNightMode
 import com.rodrigo.soares.lista.models.Item
