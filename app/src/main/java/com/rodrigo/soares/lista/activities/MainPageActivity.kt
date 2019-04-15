@@ -10,23 +10,25 @@ import android.view.ContextMenu
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
-import com.rodrigo.soares.lista.database.DBConnection
 import com.rodrigo.soares.lista.R
 import com.rodrigo.soares.lista.adapters.ReclyclerViewListasAdapter
+import com.rodrigo.soares.lista.dao.impl.ListaDAO
+import com.rodrigo.soares.lista.database.DBConnection
 import com.rodrigo.soares.lista.extensions.setNightMode
 import com.rodrigo.soares.lista.helpers.DynamicEventHelper
 import com.rodrigo.soares.lista.models.Lista
-import com.rodrigo.soares.lista.presenters.PaginaPrincipalPresenter
+import com.rodrigo.soares.lista.presenters.MainPagePresenter
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.toolbar_layout.*
 
-class PaginaPrincipalActivity : AppCompatActivity() {
+class MainPageActivity : AppCompatActivity() {
 
-    private var mPresenter: PaginaPrincipalPresenter? = null
-    private var dbConnection: DBConnection? = null
+    private var mPresenter: MainPagePresenter? = null
+    private var mConnection: DBConnection? = null
     private var mAdapter: ReclyclerViewListasAdapter? = null
 
-    private val listas: MutableList<Lista> by lazy { mutableListOf<Lista>()}
+    private val lists: MutableList<Lista> by lazy { mutableListOf<Lista>()}
+    private var listaDao: ListaDAO? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         setNightMode()
@@ -34,10 +36,7 @@ class PaginaPrincipalActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         setSupportActionBar(toolbar)
 
-        mPresenter = PaginaPrincipalPresenter(this)
-        dbConnection = DBConnection(this)
-        listas.addAll(Lista.getListas(dbConnection!!))
-        mAdapter = ReclyclerViewListasAdapter(this, listas)
+        setUp()
 
         //Drag n Drop do RV
         val callback = object: DynamicEventHelper.DynamicEventsCallback{
@@ -57,17 +56,17 @@ class PaginaPrincipalActivity : AppCompatActivity() {
         rvListas.adapter = mAdapter
 
         fabAddLista.setOnClickListener {
-            mPresenter?.openDialogAddLista()
+            mPresenter?.openDialogAddList()
         }
     }
 
     override fun onResume() {
         super.onResume()
-        atualizarLista()
+        updateLists()
     }
 
     override fun onDestroy() {
-        dbConnection?.close()
+        mConnection?.close()
         super.onDestroy()
     }
 
@@ -84,7 +83,7 @@ class PaginaPrincipalActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         when(item?.itemId){
             R.id.main_menu_config -> {
-                mPresenter?.toConfiguracoesPage()
+                mPresenter?.toConfigPage()
                 return true
             }
         }
@@ -96,15 +95,25 @@ class PaginaPrincipalActivity : AppCompatActivity() {
         inflater.inflate(R.menu.lista_menu, menu)
     }
 
-    fun atualizarLista(){
-        listas.clear()
-        listas.addAll(Lista.getListas(dbConnection!!))
+    private fun setUp(){
+        mPresenter = MainPagePresenter(this)
+        mConnection = DBConnection(this)
+        mAdapter = ReclyclerViewListasAdapter(this, lists)
+
+        listaDao = ListaDAO(mConnection!!)
+        lists.addAll(listaDao!!.getAll())
+
+    }
+
+    fun updateLists(){
+        lists.clear()
+        lists.addAll(ListaDAO(mConnection!!).getAll())
         mAdapter?.notifyDataSetChanged()
     }
 
-    fun getConnection(): DBConnection{
-            return dbConnection as DBConnection
-    }
+    fun getListaDao() = listaDao
+
+    fun getConnection() = mConnection as DBConnection
 
     fun getPresenter() = mPresenter
 
@@ -114,3 +123,14 @@ class PaginaPrincipalActivity : AppCompatActivity() {
         val REQUEST_CONFIG = 0
     }
 }
+
+/*
+TODO
+    Lista
+-Mandar os métodos d aactivity para presenter e organizar o código de ambas
+-
+    Item
+-Alterar a forma de adicionar um item (NOVA ACTIVITY com request return)
+-
+
+ */

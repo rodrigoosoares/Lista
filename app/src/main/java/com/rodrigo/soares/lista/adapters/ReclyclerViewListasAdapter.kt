@@ -8,15 +8,15 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.rodrigo.soares.lista.R
-import com.rodrigo.soares.lista.activities.PaginaPrincipalActivity
-import com.rodrigo.soares.lista.models.Item
+import com.rodrigo.soares.lista.activities.MainPageActivity
+import com.rodrigo.soares.lista.dao.impl.ItemDAO
 import com.rodrigo.soares.lista.models.Lista
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.row_listas_pagina_principal.view.*
 import java.util.*
 
 
-class ReclyclerViewListasAdapter(val activity: PaginaPrincipalActivity, val listas: MutableList<Lista>) : RecyclerView.Adapter<ReclyclerViewListasAdapter.ViewHolder>() {
+class ReclyclerViewListasAdapter(val activity: MainPageActivity, val listas: MutableList<Lista>) : RecyclerView.Adapter<ReclyclerViewListasAdapter.ViewHolder>() {
 
 
     override fun onCreateViewHolder(parent: ViewGroup, p1: Int): ViewHolder {
@@ -29,7 +29,7 @@ class ReclyclerViewListasAdapter(val activity: PaginaPrincipalActivity, val list
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.titulo.text = listas[position].titulo
-        holder.qtItem.text = Item.getItemsQtByIdLista(activity.getConnection(), listas[position].id!!).toString()
+        holder.qtItem.text = ItemDAO(activity.getConnection()).getQtByIdLista(listas[position].id!!).toString()
         //holder.corLista.setBackgroundColor(Color.parseColor(listas[position].corTitulo))
         val drawable = holder.corLista.background as GradientDrawable
         drawable.setColor(Color.parseColor(listas[position].corTitulo))
@@ -53,9 +53,8 @@ class ReclyclerViewListasAdapter(val activity: PaginaPrincipalActivity, val list
 
             listaMovidaUser.position = finalPosition
             listaMovidaAuto.position = initialPosition
-
-            Lista.editarLista(activity.getConnection(), listaMovidaUser)
-            Lista.editarLista(activity.getConnection(), listaMovidaAuto)
+            activity.getListaDao()!!.update(listaMovidaUser)
+            activity.getListaDao()!!.update(listaMovidaAuto)
         }).start()
 
         notifyItemMoved(initialPosition, finalPosition)
@@ -64,7 +63,7 @@ class ReclyclerViewListasAdapter(val activity: PaginaPrincipalActivity, val list
     fun removeItem(position: Int) {
         Snackbar.make(activity.rlPaginaPrincipal, "Deseja excluir essa a lista: ${listas[position].titulo}", 2500)
             .setAction("Excluir") {
-                Lista.removerListaById(activity.getConnection(), listas[position].id!!.toInt())
+                activity.getListaDao()!!.remove(listas[position].id!!.toInt())
                 listas.removeAt(position)
                 notifyItemRemoved(position)
             }.addCallback(object: Snackbar.Callback(){
@@ -75,14 +74,14 @@ class ReclyclerViewListasAdapter(val activity: PaginaPrincipalActivity, val list
             }).show()
     }
 
-    class ViewHolder(view: View, activity: PaginaPrincipalActivity, listas: MutableList<Lista>) : RecyclerView.ViewHolder(view) {
+    class ViewHolder(view: View, activity: MainPageActivity, listas: MutableList<Lista>) : RecyclerView.ViewHolder(view) {
         val titulo = view.tvNomeListaRow
         val qtItem = view.tvQtItemListaRow
         val corLista = view.ivListaCor
 
         init {
             view.setOnClickListener {
-                activity.getPresenter()?.toListaSelecionadaActivity(listas[adapterPosition])
+                activity.getPresenter()?.toSelectedListActivity(listas[adapterPosition])
             }
         }
 

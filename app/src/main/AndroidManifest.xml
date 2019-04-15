@@ -16,10 +16,10 @@
         <activity android:name=".activities.EditarListaActivity">
         </activity>
         <activity
-                android:name=".activities.ListaSelecionadaActivity"
+                android:name=".activities.SelectedListActivity"
                 android:windowSoftInputMode="adjustResize">
         </activity>
-        <activity android:name=".activities.PaginaPrincipalActivity">
+        <activity android:name=".activities.MainPageActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 

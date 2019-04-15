@@ -5,9 +5,9 @@ import android.provider.BaseColumns
 import com.rodrigo.soares.lista.dao.BasicDAO
 import com.rodrigo.soares.lista.database.DBConnection
 import com.rodrigo.soares.lista.models.Lista
-import java.util.ArrayList
+import java.util.*
 
-class ListaDAO(val connection: DBConnection) : BasicDAO<Lista> {
+class ListaDAO(private val connection: DBConnection) : BasicDAO<Lista> {
 
     override fun save(entity: Lista): Boolean {
         val db = connection.writableDatabase

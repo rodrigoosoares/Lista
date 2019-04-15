@@ -4,13 +4,13 @@ import android.content.Context
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import com.rodrigo.soares.lista.R
-import com.rodrigo.soares.lista.activities.ListaSelecionadaActivity
+import com.rodrigo.soares.lista.activities.SelectedListActivity
 import com.rodrigo.soares.lista.models.Item
 import com.rodrigo.soares.lista.models.Lista
 import kotlinx.android.synthetic.main.activity_lista_selecionada.*
 import net.yslibrary.android.keyboardvisibilityevent.KeyboardVisibilityEvent
 
-class ListaSelecionadaPresenter(val activity: ListaSelecionadaActivity) {
+class SelectedListPresenter(val activity: SelectedListActivity) {
 
     var inputManager: InputMethodManager? = null
 
@@ -38,7 +38,7 @@ class ListaSelecionadaPresenter(val activity: ListaSelecionadaActivity) {
     fun addItem(item: Item){
         if(item.titulo=="")
             item.titulo = activity.resources.getString(R.string.novo_item_branco)
-        Item.adicionarItem(activity.getConnection(), item)
+        activity.getItemDAO()!!.save(item)
         inputManager?.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0)
         activity.etNomeItem.setText("")
     }

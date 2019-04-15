@@ -4,9 +4,10 @@ import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
-import com.rodrigo.soares.lista.database.DBConnection
 import com.rodrigo.soares.lista.R
 import com.rodrigo.soares.lista.adapters.SpinnerCoresAdapter
+import com.rodrigo.soares.lista.dao.impl.ListaDAO
+import com.rodrigo.soares.lista.database.DBConnection
 import com.rodrigo.soares.lista.models.Cores
 import com.rodrigo.soares.lista.models.Lista
 import com.rodrigo.soares.lista.presenters.EditarListaPresenter
@@ -17,6 +18,8 @@ class EditarListaActivity : AppCompatActivity() {
 
     private var mPresenter: EditarListaPresenter? = null
     private var dbConnection: DBConnection? = null
+
+    var listDao: ListaDAO? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -29,6 +32,8 @@ class EditarListaActivity : AppCompatActivity() {
         val lista = intent.getSerializableExtra("lista") as Lista
         mPresenter = EditarListaPresenter(this)
         dbConnection = DBConnection(this)
+        listDao = ListaDAO(dbConnection!!)
+
         val spinnerAdapter = SpinnerCoresAdapter(this)
 
         supportActionBar?.title = "Editar lista: ${lista.titulo}"
@@ -36,7 +41,7 @@ class EditarListaActivity : AppCompatActivity() {
         spEditarCorLista.adapter = spinnerAdapter
 
         Cores.cores.forEachIndexed { index, element ->
-            if(element.equals(lista.corTitulo)) {
+            if(element == lista.corTitulo) {
                 spEditarCorLista.setSelection(index)
             }
         }
@@ -56,7 +61,7 @@ class EditarListaActivity : AppCompatActivity() {
         return true
     }
 
-    fun getConnection() = dbConnection
+    fun getListaDao() = listDao
 
     companion object {
         val LISTA_EDITADA_EXTRA_STRING = "listaEditada"

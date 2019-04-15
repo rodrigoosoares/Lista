@@ -5,9 +5,9 @@ import android.provider.BaseColumns
 import com.rodrigo.soares.lista.dao.BasicDAO
 import com.rodrigo.soares.lista.database.DBConnection
 import com.rodrigo.soares.lista.models.Item
-import java.util.ArrayList
+import java.util.*
 
-class ItemDAO(val connection: DBConnection) : BasicDAO<Item> {
+class ItemDAO(private val connection: DBConnection) : BasicDAO<Item> {
 
     override fun save(entity: Item): Boolean {
         val db = connection.writableDatabase
@@ -72,7 +72,7 @@ class ItemDAO(val connection: DBConnection) : BasicDAO<Item> {
         return itens
     }
 
-    fun getByIdLista(id: Int): List<Item>{
+    fun getAllByIdLista(id: Int): List<Item>{
         val db = connection.readableDatabase
 
         val projection = arrayOf(BaseColumns._ID, "Titulo", "Descricao", "IdLista")
@@ -98,7 +98,7 @@ class ItemDAO(val connection: DBConnection) : BasicDAO<Item> {
         return itens
     }
 
-    fun getQtByIdLista(connection: DBConnection, id: Int): Int = getByIdLista(id).size
+    fun getQtByIdLista(id: Int): Int = getAllByIdLista(id).size
 
     override fun remove(id: Int): Int {
         val db = connection.writableDatabase

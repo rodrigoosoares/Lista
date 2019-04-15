@@ -6,6 +6,6 @@ import com.rodrigo.soares.lista.models.Lista
 class EditarListaPresenter(val activity: EditarListaActivity) {
 
     fun salvarListaAlteracoes(lista: Lista){
-        Lista.editarLista(activity.getConnection()!!, lista)
+        activity.getListaDao()!!.update(lista)
     }
 }

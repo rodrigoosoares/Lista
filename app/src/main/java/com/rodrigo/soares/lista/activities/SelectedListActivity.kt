@@ -7,22 +7,25 @@ import android.support.v7.app.AppCompatActivity
 import android.view.*
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
-import com.rodrigo.soares.lista.database.DBConnection
 import com.rodrigo.soares.lista.R
+import com.rodrigo.soares.lista.dao.impl.ItemDAO
+import com.rodrigo.soares.lista.database.DBConnection
 import com.rodrigo.soares.lista.extensions.setNightMode
 import com.rodrigo.soares.lista.models.Item
 import com.rodrigo.soares.lista.models.Lista
-import com.rodrigo.soares.lista.presenters.ListaSelecionadaPresenter
+import com.rodrigo.soares.lista.presenters.SelectedListPresenter
 import kotlinx.android.synthetic.main.activity_lista_selecionada.*
 import kotlinx.android.synthetic.main.toolbar_layout.*
 
-class ListaSelecionadaActivity : AppCompatActivity() {
+class SelectedListActivity : AppCompatActivity() {
 
-    private var mPresenter: ListaSelecionadaPresenter? = null
-    private var dbConnection: DBConnection? = null
+    private var mPresenter: SelectedListPresenter? = null
+    private var mConnection: DBConnection? = null
     private var mAdapter: ArrayAdapter<Item>? = null
+
     private val itens: MutableList<Item> by lazy { mutableListOf<Item>() }
-    private var lista: Lista? = null
+    private var list: Lista? = null
+    private var itemDAO: ItemDAO? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         setNightMode()
@@ -33,13 +36,15 @@ class ListaSelecionadaActivity : AppCompatActivity() {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setDisplayShowHomeEnabled(true)
 
-        mPresenter = ListaSelecionadaPresenter(this)
-        dbConnection = DBConnection(this)
-        lista = intent.getSerializableExtra("listaSelecionada") as Lista
-        itens.addAll(Item.getItemsByIdLista(dbConnection!!, lista?.id!!.toInt()))
+        mPresenter = SelectedListPresenter(this)
+        mConnection = DBConnection(this)
+        val itemDAO = ItemDAO(mConnection!!)
+
+        list = intent.getSerializableExtra("listaSelecionada") as Lista
+        itens.addAll(itemDAO.getAllByIdLista(list?.id!!))
         mAdapter = ArrayAdapter(this, android.R.layout.simple_list_item_1, itens)
 
-        supportActionBar?.title = lista?.titulo
+        supportActionBar?.title = list?.titulo
         lvItens.adapter = mAdapter
         registerForContextMenu(lvItens)
 
@@ -51,7 +56,7 @@ class ListaSelecionadaActivity : AppCompatActivity() {
 
         etNomeItem.setOnKeyListener { _, keyCode, keyEvent ->
             if (keyEvent.action == KeyEvent.ACTION_DOWN && keyCode == KeyEvent.KEYCODE_ENTER) {
-                val item = Item(etNomeItem.text.toString().trim(), "", lista?.id)
+                val item = Item(etNomeItem.text.toString().trim(), "", list?.id)
                 addItemAttListaItens(item)
                 return@setOnKeyListener true
             }
@@ -59,7 +64,7 @@ class ListaSelecionadaActivity : AppCompatActivity() {
         }
 
         btnAddItem.setOnClickListener {
-            val item = Item(etNomeItem.text.toString().trim(), "", lista?.id)
+            val item = Item(etNomeItem.text.toString().trim(), "", list?.id)
             addItemAttListaItens(item)
         }
     }
@@ -81,7 +86,7 @@ class ListaSelecionadaActivity : AppCompatActivity() {
         when(item?.itemId){
             R.id.lista_toolbar_menu_editar ->{
                 val intent = Intent(this, EditarListaActivity::class.java)
-                intent.putExtra("lista", lista)
+                intent.putExtra("lista", list)
                 startActivityForResult(intent, REQUEST_INSERT)
                 return true
             }
@@ -93,7 +98,7 @@ class ListaSelecionadaActivity : AppCompatActivity() {
         return false
     }
 
-    //Remover depois de implementar o recycler view
+    //Remove after implements the recycler view
     override fun onCreateContextMenu(menu: ContextMenu?, v: View?, menuInfo: ContextMenu.ContextMenuInfo?) {
         val inflater = menuInflater
         inflater.inflate(R.menu.item_menu, menu)
@@ -108,7 +113,7 @@ class ListaSelecionadaActivity : AppCompatActivity() {
             R.id.item_menu_deletar -> {
                 val info = item.menuInfo as AdapterView.AdapterContextMenuInfo
                 val itemId = itens[info.position].id
-                Item.removerItemById(dbConnection!!, itemId!!)
+                itemDAO!!.remove(itemId!!)
                 itens.removeAt(info.position)
                 mAdapter?.notifyDataSetChanged()
                 return true
@@ -117,12 +122,12 @@ class ListaSelecionadaActivity : AppCompatActivity() {
         return false
     }
 
-    fun getConnection(): DBConnection = dbConnection as DBConnection
+    fun getItemDAO() = itemDAO
 
     fun addItemAttListaItens(item: Item){
         mPresenter?.addItem(item)
         itens.clear()
-        itens.addAll(Item.getItemsByIdLista(dbConnection!!, lista?.id!!.toInt()))
+        itens.addAll(itemDAO!!.getAllByIdLista(list?.id!!))
         mAdapter?.notifyDataSetChanged()
     }
 

@@ -12,7 +12,7 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.Spinner
 import com.rodrigo.soares.lista.R
-import com.rodrigo.soares.lista.activities.PaginaPrincipalActivity
+import com.rodrigo.soares.lista.activities.MainPageActivity
 import com.rodrigo.soares.lista.adapters.SpinnerCoresAdapter
 import com.rodrigo.soares.lista.models.Lista
 
@@ -31,7 +31,7 @@ class AdicionarListaDialogFragment : DialogFragment() {
         val spCores = layout?.findViewById<Spinner>(R.id.spCores)
         btnCriarLista?.setOnClickListener {
             val nomeLista = layout.findViewById<EditText>(R.id.etNomeLista).text.toString()
-            Lista.salvarLista(context, Lista(nomeLista, spCores?.selectedItem.toString()))
+            (activity as MainPageActivity).getListaDao()!!.save(Lista(nomeLista, spCores?.selectedItem.toString()))
             dismiss()
         }
         val spinnerAdapter = SpinnerCoresAdapter(context)
@@ -40,7 +40,7 @@ class AdicionarListaDialogFragment : DialogFragment() {
     }
 
     override fun onDismiss(dialog: DialogInterface?) {
-        (activity as PaginaPrincipalActivity).atualizarLista()
+        (activity as MainPageActivity).updateLists()
     }
 
     override fun onCancel(dialog: DialogInterface?) {
