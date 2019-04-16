@@ -19,54 +19,21 @@ import kotlinx.android.synthetic.main.toolbar_layout.*
 
 class SelectedListActivity : AppCompatActivity() {
 
+    private val SELECTED_LIST_EXTRA = "listaSelecionada"
+
     private var mPresenter: SelectedListPresenter? = null
     private var mConnection: DBConnection? = null
     private var mAdapter: ArrayAdapter<Item>? = null
 
-    private val itens: MutableList<Item> by lazy { mutableListOf<Item>() }
-    private var list: Lista? = null
-    private var itemDAO: ItemDAO? = null
+    private val items: MutableList<Item> by lazy { mutableListOf<Item>() }
+    private var selectedList: Lista? = null
+    private var itemDao: ItemDAO? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         setNightMode()
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_lista_selecionada)
-        setSupportActionBar(toolbar)
 
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        supportActionBar?.setDisplayShowHomeEnabled(true)
-
-        mPresenter = SelectedListPresenter(this)
-        mConnection = DBConnection(this)
-        val itemDAO = ItemDAO(mConnection!!)
-
-        list = intent.getSerializableExtra("listaSelecionada") as Lista
-        itens.addAll(itemDAO.getAllByIdLista(list?.id!!))
-        mAdapter = ArrayAdapter(this, android.R.layout.simple_list_item_1, itens)
-
-        supportActionBar?.title = list?.titulo
-        lvItens.adapter = mAdapter
-        registerForContextMenu(lvItens)
-
-        mPresenter?.toggleViewsVisibilityEvent()
-
-        fabAddItem.setOnClickListener {
-            mPresenter?.openKeyBoard()
-        }
-
-        etNomeItem.setOnKeyListener { _, keyCode, keyEvent ->
-            if (keyEvent.action == KeyEvent.ACTION_DOWN && keyCode == KeyEvent.KEYCODE_ENTER) {
-                val item = Item(etNomeItem.text.toString().trim(), "", list?.id)
-                addItemAttListaItens(item)
-                return@setOnKeyListener true
-            }
-            return@setOnKeyListener false
-        }
-
-        btnAddItem.setOnClickListener {
-            val item = Item(etNomeItem.text.toString().trim(), "", list?.id)
-            addItemAttListaItens(item)
-        }
+        setUp()
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -86,7 +53,7 @@ class SelectedListActivity : AppCompatActivity() {
         when(item?.itemId){
             R.id.lista_toolbar_menu_editar ->{
                 val intent = Intent(this, EditarListaActivity::class.java)
-                intent.putExtra("lista", list)
+                intent.putExtra("lista", selectedList)
                 startActivityForResult(intent, REQUEST_INSERT)
                 return true
             }
@@ -112,9 +79,9 @@ class SelectedListActivity : AppCompatActivity() {
             }
             R.id.item_menu_deletar -> {
                 val info = item.menuInfo as AdapterView.AdapterContextMenuInfo
-                val itemId = itens[info.position].id
-                itemDAO!!.remove(itemId!!)
-                itens.removeAt(info.position)
+                val itemId = items[info.position].id
+                itemDao!!.remove(itemId!!)
+                items.removeAt(info.position)
                 mAdapter?.notifyDataSetChanged()
                 return true
             }
@@ -122,12 +89,48 @@ class SelectedListActivity : AppCompatActivity() {
         return false
     }
 
-    fun getItemDAO() = itemDAO
+    private fun setUp(){
+        setContentView(R.layout.activity_lista_selecionada)
+        setSupportActionBar(toolbar)
 
-    fun addItemAttListaItens(item: Item){
-        mPresenter?.addItem(item)
-        itens.clear()
-        itens.addAll(itemDAO!!.getAllByIdLista(list?.id!!))
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        supportActionBar?.setDisplayShowHomeEnabled(true)
+
+        mPresenter = SelectedListPresenter(this)
+        mConnection = DBConnection(this)
+        itemDao = ItemDAO(mConnection!!)
+
+        selectedList = intent.getSerializableExtra(SELECTED_LIST_EXTRA) as Lista
+        items.addAll(mPresenter!!.getAllItems(itemDao!!, selectedList!!))
+        mAdapter = ArrayAdapter(this, android.R.layout.simple_list_item_1, items)
+
+        supportActionBar?.title = selectedList?.titulo
+        lvItens.adapter = mAdapter
+        registerForContextMenu(lvItens)
+
+        mPresenter?.toggleViewsVisibilityEvent()
+
+        fabAddItem.setOnClickListener {
+            mPresenter?.openKeyBoard()
+        }
+
+        etNomeItem.setOnKeyListener { _, keyCode, keyEvent ->
+            mPresenter?.etNomeItemOnKeyEvent(keyCode, keyEvent)!!
+        }
+
+        btnAddItem.setOnClickListener {
+            mPresenter!!.addItem(Item(etNomeItem.text.toString().trim(), "", selectedList?.id))
+            attListItems()
+        }
+    }
+
+    fun getItemDAO() = itemDao
+
+    fun getSelectedList() = selectedList!!
+
+    fun attListItems(){
+        items.clear()
+        items.addAll(itemDao!!.getAllByIdLista(selectedList?.id!!))
         mAdapter?.notifyDataSetChanged()
     }
 

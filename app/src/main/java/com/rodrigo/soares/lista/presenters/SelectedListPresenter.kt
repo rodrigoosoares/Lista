@@ -1,10 +1,12 @@
 package com.rodrigo.soares.lista.presenters
 
 import android.content.Context
+import android.view.KeyEvent
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import com.rodrigo.soares.lista.R
 import com.rodrigo.soares.lista.activities.SelectedListActivity
+import com.rodrigo.soares.lista.dao.impl.ItemDAO
 import com.rodrigo.soares.lista.models.Item
 import com.rodrigo.soares.lista.models.Lista
 import kotlinx.android.synthetic.main.activity_lista_selecionada.*
@@ -43,8 +45,19 @@ class SelectedListPresenter(val activity: SelectedListActivity) {
         activity.etNomeItem.setText("")
     }
 
+    fun getAllItems(itemDao: ItemDAO, selectedList: Lista) = itemDao.getAllByIdLista(selectedList.id!!)
+
     fun attListaInfo(lista: Lista){
         activity.supportActionBar?.title = lista.titulo
+    }
+
+    fun etNomeItemOnKeyEvent(keyCode: Int, keyEvent: KeyEvent): Boolean{
+        if (keyEvent.action == KeyEvent.ACTION_DOWN && keyCode == KeyEvent.KEYCODE_ENTER) {
+            addItem(Item(activity.etNomeItem.text.toString().trim(), "", activity.getSelectedList().id))
+            activity.attListItems()
+            return true
+        }
+        return false
     }
 
 

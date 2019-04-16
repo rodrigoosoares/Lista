@@ -31,7 +31,7 @@ class AdicionarListaDialogFragment : DialogFragment() {
         val spCores = layout?.findViewById<Spinner>(R.id.spCores)
         btnCriarLista?.setOnClickListener {
             val nomeLista = layout.findViewById<EditText>(R.id.etNomeLista).text.toString()
-            (activity as MainPageActivity).getListaDao()!!.save(Lista(nomeLista, spCores?.selectedItem.toString()))
+            (activity as MainPageActivity).getListDao()!!.save(Lista(nomeLista, spCores?.selectedItem.toString()))
             dismiss()
         }
         val spinnerAdapter = SpinnerCoresAdapter(context)

@@ -4,8 +4,6 @@ import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
-import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.helper.ItemTouchHelper
 import android.view.ContextMenu
 import android.view.Menu
 import android.view.MenuItem
@@ -15,10 +13,8 @@ import com.rodrigo.soares.lista.adapters.ReclyclerViewListasAdapter
 import com.rodrigo.soares.lista.dao.impl.ListaDAO
 import com.rodrigo.soares.lista.database.DBConnection
 import com.rodrigo.soares.lista.extensions.setNightMode
-import com.rodrigo.soares.lista.helpers.DynamicEventHelper
 import com.rodrigo.soares.lista.models.Lista
 import com.rodrigo.soares.lista.presenters.MainPagePresenter
-import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.toolbar_layout.*
 
 class MainPageActivity : AppCompatActivity() {
@@ -28,36 +24,14 @@ class MainPageActivity : AppCompatActivity() {
     private var mAdapter: ReclyclerViewListasAdapter? = null
 
     private val lists: MutableList<Lista> by lazy { mutableListOf<Lista>()}
-    private var listaDao: ListaDAO? = null
+    private var listDao: ListaDAO? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         setNightMode()
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
-        setSupportActionBar(toolbar)
 
         setUp()
-
-        //Drag n Drop do RV
-        val callback = object: DynamicEventHelper.DynamicEventsCallback{
-            override fun onItemMove(InitialPosition: Int, FinalPosition: Int) {
-                mAdapter?.onItemMove(InitialPosition, FinalPosition)
-            }
-
-            override fun removeItem(position: Int) {
-                mAdapter?.removeItem(position)
-            }
-
-        }
-        val androidItemTouchHelper = ItemTouchHelper(DynamicEventHelper(callback))
-        androidItemTouchHelper.attachToRecyclerView(rvListas)
-
-        rvListas.layoutManager = LinearLayoutManager(this)
-        rvListas.adapter = mAdapter
-
-        fabAddLista.setOnClickListener {
-            mPresenter?.openDialogAddList()
-        }
+        mPresenter?.setUpDragNDropRecyclerView(mAdapter!!)
     }
 
     override fun onResume() {
@@ -96,22 +70,24 @@ class MainPageActivity : AppCompatActivity() {
     }
 
     private fun setUp(){
+        setContentView(R.layout.activity_main)
+        setSupportActionBar(toolbar)
+
         mPresenter = MainPagePresenter(this)
         mConnection = DBConnection(this)
         mAdapter = ReclyclerViewListasAdapter(this, lists)
 
-        listaDao = ListaDAO(mConnection!!)
-        lists.addAll(listaDao!!.getAll())
-
+        listDao = ListaDAO(mConnection!!)
+        lists.addAll(mPresenter!!.getAllLists(listDao!!))
     }
 
     fun updateLists(){
         lists.clear()
-        lists.addAll(ListaDAO(mConnection!!).getAll())
+        lists.addAll(mPresenter!!.getAllLists(listDao!!))
         mAdapter?.notifyDataSetChanged()
     }
 
-    fun getListaDao() = listaDao
+    fun getListDao() = listDao
 
     fun getConnection() = mConnection as DBConnection
 

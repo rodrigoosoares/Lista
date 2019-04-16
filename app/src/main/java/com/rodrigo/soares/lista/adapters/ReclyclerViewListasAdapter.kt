@@ -53,8 +53,8 @@ class ReclyclerViewListasAdapter(val activity: MainPageActivity, val listas: Mut
 
             listaMovidaUser.position = finalPosition
             listaMovidaAuto.position = initialPosition
-            activity.getListaDao()!!.update(listaMovidaUser)
-            activity.getListaDao()!!.update(listaMovidaAuto)
+            activity.getListDao()!!.update(listaMovidaUser)
+            activity.getListDao()!!.update(listaMovidaAuto)
         }).start()
 
         notifyItemMoved(initialPosition, finalPosition)
@@ -63,7 +63,7 @@ class ReclyclerViewListasAdapter(val activity: MainPageActivity, val listas: Mut
     fun removeItem(position: Int) {
         Snackbar.make(activity.rlPaginaPrincipal, "Deseja excluir essa a lista: ${listas[position].titulo}", 2500)
             .setAction("Excluir") {
-                activity.getListaDao()!!.remove(listas[position].id!!.toInt())
+                activity.getListDao()!!.remove(listas[position].id!!.toInt())
                 listas.removeAt(position)
                 notifyItemRemoved(position)
             }.addCallback(object: Snackbar.Callback(){
