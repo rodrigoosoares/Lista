@@ -13,7 +13,7 @@
                 android:name=".activities.ConfiguracoesActivity"
                 android:label="@string/title_activity_configuracoes">
         </activity>
-        <activity android:name=".activities.EditarListaActivity">
+        <activity android:name=".activities.EditListActivity">
         </activity>
         <activity
                 android:name=".activities.SelectedListActivity"

@@ -4,7 +4,10 @@ import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
-import android.view.*
+import android.view.ContextMenu
+import android.view.Menu
+import android.view.MenuItem
+import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import com.rodrigo.soares.lista.R
@@ -39,7 +42,7 @@ class SelectedListActivity : AppCompatActivity() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if(requestCode == REQUEST_INSERT && resultCode == Activity.RESULT_OK){
-            val listaEditada = data?.getSerializableExtra(EditarListaActivity.LISTA_EDITADA_EXTRA_STRING) as Lista
+            val listaEditada = data?.getSerializableExtra(EditListActivity.EDITED_LIST_EXTRA_STRING) as Lista
             mPresenter?.attListaInfo(listaEditada)
         }
     }
@@ -51,9 +54,9 @@ class SelectedListActivity : AppCompatActivity() {
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         when(item?.itemId){
-            R.id.lista_toolbar_menu_editar ->{
-                val intent = Intent(this, EditarListaActivity::class.java)
-                intent.putExtra("lista", selectedList)
+            R.id.list_toolbar_edit_menu ->{
+                val intent = Intent(this, EditListActivity::class.java)
+                intent.putExtra(LIST_TO_EDIT, selectedList)
                 startActivityForResult(intent, REQUEST_INSERT)
                 return true
             }
@@ -136,6 +139,7 @@ class SelectedListActivity : AppCompatActivity() {
 
     companion object {
         val REQUEST_INSERT = 0
+        val LIST_TO_EDIT = "editList"
     }
 
 }

@@ -54,7 +54,7 @@ class Gerenciador : Serializable {
             // SALVAR AS INFORMAÇÕES DO BANCO DE DADOS
             val gerenciador = Gerenciador()
 
-            val arquivoGrav = FileOutputStream("listas.lst")
+            val arquivoGrav = FileOutputStream("lists.lst")
 
             val objGravar = ObjectOutputStream(arquivoGrav)
 

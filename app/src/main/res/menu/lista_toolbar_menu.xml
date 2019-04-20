@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <item android:id="@+id/lista_toolbar_menu_editar"
+    <item android:id="@+id/list_toolbar_edit_menu"
           android:icon="@drawable/ic_edit"
           android:title="Editar"
           app:showAsAction="always"/>

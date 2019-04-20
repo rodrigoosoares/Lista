@@ -59,6 +59,4 @@ class SelectedListPresenter(val activity: SelectedListActivity) {
         }
         return false
     }
-
-
 }

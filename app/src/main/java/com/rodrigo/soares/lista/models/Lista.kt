@@ -17,7 +17,6 @@ class Lista constructor(var titulo: String, var corTitulo: String) : Serializabl
         this.position = position
     }
 
-
     override fun toString(): String = titulo
 
     // TODO Facade para os Métodos da Serialização

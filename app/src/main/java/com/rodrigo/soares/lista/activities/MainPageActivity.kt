@@ -9,19 +9,22 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import com.rodrigo.soares.lista.R
-import com.rodrigo.soares.lista.adapters.ReclyclerViewListasAdapter
+import com.rodrigo.soares.lista.adapters.ReclyclerViewListsAdapter
+import com.rodrigo.soares.lista.dao.impl.AccountDAO
 import com.rodrigo.soares.lista.dao.impl.ListaDAO
 import com.rodrigo.soares.lista.database.DBConnection
 import com.rodrigo.soares.lista.extensions.setNightMode
+import com.rodrigo.soares.lista.models.Account
 import com.rodrigo.soares.lista.models.Lista
 import com.rodrigo.soares.lista.presenters.MainPagePresenter
+import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.toolbar_layout.*
 
 class MainPageActivity : AppCompatActivity() {
 
     private var mPresenter: MainPagePresenter? = null
     private var mConnection: DBConnection? = null
-    private var mAdapter: ReclyclerViewListasAdapter? = null
+    private var mAdapter: ReclyclerViewListsAdapter? = null
 
     private val lists: MutableList<Lista> by lazy { mutableListOf<Lista>()}
     private var listDao: ListaDAO? = null
@@ -30,7 +33,11 @@ class MainPageActivity : AppCompatActivity() {
         setNightMode()
         super.onCreate(savedInstanceState)
 
+        //TODO tranferir esse cara para a SplashScreen
+            //this.deleteDatabase("Listas.db")
+            //AccountDAO(mConnection!!).save(Account(0.0))
         setUp()
+
         mPresenter?.setUpDragNDropRecyclerView(mAdapter!!)
     }
 
@@ -75,10 +82,12 @@ class MainPageActivity : AppCompatActivity() {
 
         mPresenter = MainPagePresenter(this)
         mConnection = DBConnection(this)
-        mAdapter = ReclyclerViewListasAdapter(this, lists)
+        mAdapter = ReclyclerViewListsAdapter(this, lists)
 
         listDao = ListaDAO(mConnection!!)
         lists.addAll(mPresenter!!.getAllLists(listDao!!))
+
+        tvIncome.text = mPresenter!!.setUpIncomeText()
     }
 
     fun updateLists(){
