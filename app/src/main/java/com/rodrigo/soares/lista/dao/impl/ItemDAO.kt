@@ -134,7 +134,7 @@ class ItemDAO(private val connection: DBConnection) : BasicDAO<Item> {
         val selectionArgs = arrayOf(Integer.toString(entiry.id!!))
 
         return db.update(
-            "Items",
+            "Item",
             values,
             selection,
             selectionArgs)

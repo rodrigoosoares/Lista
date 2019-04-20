@@ -13,10 +13,10 @@ import android.widget.EditText
 import android.widget.Spinner
 import com.rodrigo.soares.lista.R
 import com.rodrigo.soares.lista.activities.MainPageActivity
-import com.rodrigo.soares.lista.adapters.SpinnerCoresAdapter
+import com.rodrigo.soares.lista.adapters.SpinnerColorsAdapter
 import com.rodrigo.soares.lista.models.Lista
 
-class AdicionarListaDialogFragment : DialogFragment() {
+class AddListDialogFragment : DialogFragment() {
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         if(AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES)
@@ -27,15 +27,15 @@ class AdicionarListaDialogFragment : DialogFragment() {
         val inflater = activity?.layoutInflater
         val layout = inflater?.inflate(R.layout.fragment_custom_dialog, null)
         builder.setView(layout)
-        val btnCriarLista = layout?.findViewById<Button>(R.id.btnCriarLista)
-        val spCores = layout?.findViewById<Spinner>(R.id.spCores)
-        btnCriarLista?.setOnClickListener {
-            val nomeLista = layout.findViewById<EditText>(R.id.etNomeLista).text.toString()
-            (activity as MainPageActivity).getListaDao()!!.save(Lista(nomeLista, spCores?.selectedItem.toString()))
+        val btnCreateList = layout?.findViewById<Button>(R.id.btnCreateList)
+        val spColors = layout?.findViewById<Spinner>(R.id.spColors)
+        btnCreateList?.setOnClickListener {
+            val listName = layout.findViewById<EditText>(R.id.etListName).text.toString()
+            (activity as MainPageActivity).getListDao()!!.save(Lista(listName, spColors?.selectedItem.toString()))
             dismiss()
         }
-        val spinnerAdapter = SpinnerCoresAdapter(context)
-        spCores?.adapter = spinnerAdapter
+        val spinnerAdapter = SpinnerColorsAdapter(context)
+        spColors?.adapter = spinnerAdapter
         return builder.create()
     }
 
@@ -52,5 +52,4 @@ class AdicionarListaDialogFragment : DialogFragment() {
         super.onActivityCreated(savedInstanceState)
         dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
     }
-
 }

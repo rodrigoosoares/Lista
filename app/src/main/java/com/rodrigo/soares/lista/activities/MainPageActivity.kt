@@ -4,18 +4,17 @@ import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
-import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.helper.ItemTouchHelper
 import android.view.ContextMenu
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import com.rodrigo.soares.lista.R
-import com.rodrigo.soares.lista.adapters.ReclyclerViewListasAdapter
+import com.rodrigo.soares.lista.adapters.ReclyclerViewListsAdapter
+import com.rodrigo.soares.lista.dao.impl.AccountDAO
 import com.rodrigo.soares.lista.dao.impl.ListaDAO
 import com.rodrigo.soares.lista.database.DBConnection
 import com.rodrigo.soares.lista.extensions.setNightMode
-import com.rodrigo.soares.lista.helpers.DynamicEventHelper
+import com.rodrigo.soares.lista.models.Account
 import com.rodrigo.soares.lista.models.Lista
 import com.rodrigo.soares.lista.presenters.MainPagePresenter
 import kotlinx.android.synthetic.main.activity_main.*
@@ -25,39 +24,21 @@ class MainPageActivity : AppCompatActivity() {
 
     private var mPresenter: MainPagePresenter? = null
     private var mConnection: DBConnection? = null
-    private var mAdapter: ReclyclerViewListasAdapter? = null
+    private var mAdapter: ReclyclerViewListsAdapter? = null
 
     private val lists: MutableList<Lista> by lazy { mutableListOf<Lista>()}
-    private var listaDao: ListaDAO? = null
+    private var listDao: ListaDAO? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         setNightMode()
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
-        setSupportActionBar(toolbar)
 
+        //TODO tranferir esse cara para a SplashScreen
+            //this.deleteDatabase("Listas.db")
+            //AccountDAO(mConnection!!).save(Account(0.0))
         setUp()
 
-        //Drag n Drop do RV
-        val callback = object: DynamicEventHelper.DynamicEventsCallback{
-            override fun onItemMove(InitialPosition: Int, FinalPosition: Int) {
-                mAdapter?.onItemMove(InitialPosition, FinalPosition)
-            }
-
-            override fun removeItem(position: Int) {
-                mAdapter?.removeItem(position)
-            }
-
-        }
-        val androidItemTouchHelper = ItemTouchHelper(DynamicEventHelper(callback))
-        androidItemTouchHelper.attachToRecyclerView(rvListas)
-
-        rvListas.layoutManager = LinearLayoutManager(this)
-        rvListas.adapter = mAdapter
-
-        fabAddLista.setOnClickListener {
-            mPresenter?.openDialogAddList()
-        }
+        mPresenter?.setUpDragNDropRecyclerView(mAdapter!!)
     }
 
     override fun onResume() {
@@ -96,22 +77,26 @@ class MainPageActivity : AppCompatActivity() {
     }
 
     private fun setUp(){
+        setContentView(R.layout.activity_main)
+        setSupportActionBar(toolbar)
+
         mPresenter = MainPagePresenter(this)
         mConnection = DBConnection(this)
-        mAdapter = ReclyclerViewListasAdapter(this, lists)
+        mAdapter = ReclyclerViewListsAdapter(this, lists)
 
-        listaDao = ListaDAO(mConnection!!)
-        lists.addAll(listaDao!!.getAll())
+        listDao = ListaDAO(mConnection!!)
+        lists.addAll(mPresenter!!.getAllLists(listDao!!))
 
+        tvIncome.text = mPresenter!!.setUpIncomeText()
     }
 
     fun updateLists(){
         lists.clear()
-        lists.addAll(ListaDAO(mConnection!!).getAll())
+        lists.addAll(mPresenter!!.getAllLists(listDao!!))
         mAdapter?.notifyDataSetChanged()
     }
 
-    fun getListaDao() = listaDao
+    fun getListDao() = listDao
 
     fun getConnection() = mConnection as DBConnection
 
