@@ -35,6 +35,7 @@ class MainPageActivity : AppCompatActivity() {
 
         //TODO tranferir esse cara para a SplashScreen
             //this.deleteDatabase("Listas.db")
+            //mConnection = DBConnection(this)
             //AccountDAO(mConnection!!).save(Account(0.0))
         setUp()
 
@@ -108,14 +109,3 @@ class MainPageActivity : AppCompatActivity() {
         val REQUEST_CONFIG = 0
     }
 }
-
-/*
-TODO
-    Lista
--Mandar os métodos d aactivity para presenter e organizar o código de ambas
--
-    Item
--Alterar a forma de adicionar um item (NOVA ACTIVITY com request return)
--
-
- */

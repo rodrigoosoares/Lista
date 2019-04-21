@@ -13,6 +13,8 @@ import com.rodrigo.soares.lista.fragments.AddListDialogFragment
 import com.rodrigo.soares.lista.helpers.DynamicEventHelper
 import com.rodrigo.soares.lista.models.Lista
 import kotlinx.android.synthetic.main.activity_main.*
+import java.text.NumberFormat
+import java.util.*
 
 class MainPagePresenter(var activity: MainPageActivity) {
 
@@ -62,9 +64,10 @@ class MainPagePresenter(var activity: MainPageActivity) {
 
     fun getAllLists(listDao: ListaDAO) = listDao.getAll()
 
-    fun setUpIncomeText(): String{
-        var account = AccountDAO(activity.getConnection()).getById(DEFAULT_ACCOUNT_ID)
-        return INCOME_TEXT + account.income.toString()
+    fun setUpIncomeText(): String {
+        val account = AccountDAO(activity.getConnection()).getById(DEFAULT_ACCOUNT_ID)
+        val locale = Locale("pt", "BR")
 
+        return INCOME_TEXT + NumberFormat.getCurrencyInstance(locale).format(account.income)
     }
 }

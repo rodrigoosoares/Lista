@@ -13,8 +13,8 @@ class ItemDAO(private val connection: DBConnection) : BasicDAO<Item> {
         val db = connection.writableDatabase
         val values = ContentValues()
 
-        values.put("Titulo", entity.titulo.trim())
-        values.put("Descricao", entity.descricao.trim())
+        values.put("Titulo", entity.title.trim())
+        values.put("Preco", entity.price)
         values.put("IdLista", entity.idLista)
 
         val newRowId = db.insert("Item", null, values)
@@ -25,7 +25,7 @@ class ItemDAO(private val connection: DBConnection) : BasicDAO<Item> {
     override fun getById(id: Int): Item {
         val db = connection.readableDatabase
 
-        val projection = arrayOf(BaseColumns._ID, "Titulo", "Descricao", "IdLista")
+        val projection = arrayOf(BaseColumns._ID, "Titulo", "Preco", "IdLista")
 
         val selection = BaseColumns._ID + " = ?"
         val selectionArgs = arrayOf(Integer.toString(id))
@@ -39,16 +39,16 @@ class ItemDAO(private val connection: DBConnection) : BasicDAO<Item> {
         cursor.moveToNext()
         val itemId = cursor.getInt(cursor.getColumnIndexOrThrow(BaseColumns._ID))
         val itemTitulo = cursor.getString(cursor.getColumnIndexOrThrow("Titulo"))
-        val itemDescricao = cursor.getString(cursor.getColumnIndexOrThrow("Descricao"))
+        val itemPreco = cursor.getDouble(cursor.getColumnIndexOrThrow("Preco"))
         val itemIdLista = cursor.getInt(cursor.getColumnIndexOrThrow("IdLista"))
         cursor.close()
-        return Item(itemId, itemTitulo, itemDescricao, itemIdLista)
+        return Item(itemId, itemTitulo, itemPreco, itemIdLista)
     }
 
     override fun getAll(): List<Item> {
         val db = connection.readableDatabase
 
-        val projection = arrayOf(BaseColumns._ID, "Titulo", "Descricao", "IdLista")
+        val projection = arrayOf(BaseColumns._ID, "Titulo", "Preco", "IdLista")
 
         val itens = ArrayList<Item>()
 
@@ -62,10 +62,10 @@ class ItemDAO(private val connection: DBConnection) : BasicDAO<Item> {
         while (cursor.moveToNext()) {
             val itemId = cursor.getInt(cursor.getColumnIndexOrThrow(BaseColumns._ID))
             val itemTitulo = cursor.getString(cursor.getColumnIndexOrThrow("Titulo"))
-            val itemDescricao = cursor.getString(cursor.getColumnIndexOrThrow("Descricao"))
+            val itemPreco = cursor.getDouble(cursor.getColumnIndexOrThrow("Preco"))
             val itemIdLista = cursor.getInt(cursor.getColumnIndexOrThrow("IdLista"))
 
-            itens.add(Item(itemId, itemTitulo, itemDescricao, itemIdLista))
+            itens.add(Item(itemId, itemTitulo, itemPreco, itemIdLista))
         }
         cursor.close()
 
@@ -75,7 +75,7 @@ class ItemDAO(private val connection: DBConnection) : BasicDAO<Item> {
     fun getAllByIdLista(id: Int): List<Item>{
         val db = connection.readableDatabase
 
-        val projection = arrayOf(BaseColumns._ID, "Titulo", "Descricao", "IdLista")
+        val projection = arrayOf(BaseColumns._ID, "Titulo", "Preco", "IdLista")
 
         val selection = "IdLista = ?"
         val selectionArgs = arrayOf(Integer.toString(id))
@@ -90,9 +90,9 @@ class ItemDAO(private val connection: DBConnection) : BasicDAO<Item> {
         while (cursor.moveToNext()) {
             val itemId = cursor.getInt(cursor.getColumnIndexOrThrow(BaseColumns._ID))
             val itemTitulo = cursor.getString(cursor.getColumnIndexOrThrow("Titulo"))
-            val itemDescricao = cursor.getString(cursor.getColumnIndexOrThrow("Descricao"))
+            val itemPreco = cursor.getDouble(cursor.getColumnIndexOrThrow("Preco"))
             val itemIdLista = cursor.getInt(cursor.getColumnIndexOrThrow("IdLista"))
-            itens.add(Item(itemId, itemTitulo, itemDescricao, itemIdLista))
+            itens.add(Item(itemId, itemTitulo, itemPreco, itemIdLista))
         }
         cursor.close()
         return itens
@@ -126,8 +126,8 @@ class ItemDAO(private val connection: DBConnection) : BasicDAO<Item> {
         val db = connection.writableDatabase
 
         val values = ContentValues()
-        values.put("Titulo", entiry.titulo)
-        values.put("Descricao", entiry.descricao)
+        values.put("Titulo", entiry.title)
+        values.put("Preco", entiry.price)
         values.put("IdLista", entiry.idLista)
 
         val selection = BaseColumns._ID + " LIKE ?"
