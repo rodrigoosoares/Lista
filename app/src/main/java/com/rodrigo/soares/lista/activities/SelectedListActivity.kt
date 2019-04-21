@@ -17,7 +17,7 @@ import com.rodrigo.soares.lista.extensions.setNightMode
 import com.rodrigo.soares.lista.models.Item
 import com.rodrigo.soares.lista.models.Lista
 import com.rodrigo.soares.lista.presenters.SelectedListPresenter
-import kotlinx.android.synthetic.main.activity_lista_selecionada.*
+import kotlinx.android.synthetic.main.activity_selected_list.*
 import kotlinx.android.synthetic.main.toolbar_layout.*
 
 class SelectedListActivity : AppCompatActivity() {
@@ -45,6 +45,11 @@ class SelectedListActivity : AppCompatActivity() {
             val listaEditada = data?.getSerializableExtra(EditListActivity.EDITED_LIST_EXTRA_STRING) as Lista
             mPresenter?.attListaInfo(listaEditada)
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        attListItems()
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -77,7 +82,7 @@ class SelectedListActivity : AppCompatActivity() {
     override fun onContextItemSelected(item: MenuItem?): Boolean {
         when(item?.itemId){
             R.id.item_menu_descricao -> {
-                mPresenter?.openKeyBoard()
+                //mPresenter?.openKeyBoard()
                 return true
             }
             R.id.item_menu_deletar -> {
@@ -91,9 +96,8 @@ class SelectedListActivity : AppCompatActivity() {
         }
         return false
     }
-
     private fun setUp(){
-        setContentView(R.layout.activity_lista_selecionada)
+        setContentView(R.layout.activity_selected_list)
         setSupportActionBar(toolbar)
 
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
@@ -111,19 +115,8 @@ class SelectedListActivity : AppCompatActivity() {
         lvItens.adapter = mAdapter
         registerForContextMenu(lvItens)
 
-        mPresenter?.toggleViewsVisibilityEvent()
-
         fabAddItem.setOnClickListener {
-            mPresenter?.openKeyBoard()
-        }
-
-        etNomeItem.setOnKeyListener { _, keyCode, keyEvent ->
-            mPresenter?.etNomeItemOnKeyEvent(keyCode, keyEvent)!!
-        }
-
-        btnAddItem.setOnClickListener {
-            mPresenter!!.addItem(Item(etNomeItem.text.toString().trim(), "", selectedList?.id))
-            attListItems()
+            mPresenter?.toAddItemPage()
         }
     }
 
