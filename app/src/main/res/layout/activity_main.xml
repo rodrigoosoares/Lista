@@ -16,7 +16,8 @@
               android:layout_width="wrap_content"
               android:layout_height="wrap_content"
               android:layout_below="@id/toolbar"
-              android:layout_margin="10dp"/>
+              android:layout_margin="10dp"
+    android:text=""/>
 
     <android.support.v7.widget.RecyclerView android:id="@+id/rvLists"
                                             android:layout_width="match_parent"

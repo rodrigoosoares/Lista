@@ -10,6 +10,7 @@ import com.rodrigo.soares.lista.models.Account
 import java.util.ArrayList
 
 class AccountDAO(private val connection: DBConnection): BasicDAO<Account> {
+
     override fun save(entity: Account): Boolean {
         val db = connection.writableDatabase
         val values = ContentValues()

@@ -88,12 +88,15 @@ class MainPageActivity : AppCompatActivity() {
         listDao = ListaDAO(mConnection!!)
         lists.addAll(mPresenter!!.getAllLists(listDao!!))
 
-        tvIncome.text = mPresenter!!.setUpIncomeText()
+        //AccountDAO(mConnection!!).update(Account(1, 10000.00))
+
+        tvIncome.text = mPresenter!!.setUpIncomeText(lists)
     }
 
     fun updateLists(){
         lists.clear()
         lists.addAll(mPresenter!!.getAllLists(listDao!!))
+        tvIncome.text = mPresenter!!.setUpIncomeText(lists)
         mAdapter?.notifyDataSetChanged()
     }
 
