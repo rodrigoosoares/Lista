@@ -38,3 +38,11 @@ class AddItemActivity : AppCompatActivity() {
 
     }
 }
+
+/*
+    O aplicativo será um controle de gastos.
+        O usuário poderá adicionar listas de compras (MainPageActivity) (Mercado, preças do pc etc)
+            - Na MainPageActivity o usuário poderá ver a quantidade total de seus gastos
+        O usuário poderá em cada lista (SelectedListActivity) adicionar itens
+            - Cada item possuirá um nome, um valor e um link (opicional)
+*/

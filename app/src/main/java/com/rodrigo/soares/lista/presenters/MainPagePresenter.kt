@@ -8,9 +8,11 @@ import com.rodrigo.soares.lista.activities.MainPageActivity
 import com.rodrigo.soares.lista.activities.SelectedListActivity
 import com.rodrigo.soares.lista.adapters.ReclyclerViewListsAdapter
 import com.rodrigo.soares.lista.dao.impl.AccountDAO
+import com.rodrigo.soares.lista.dao.impl.ItemDAO
 import com.rodrigo.soares.lista.dao.impl.ListaDAO
 import com.rodrigo.soares.lista.fragments.AddListDialogFragment
 import com.rodrigo.soares.lista.helpers.DynamicEventHelper
+import com.rodrigo.soares.lista.models.Item
 import com.rodrigo.soares.lista.models.Lista
 import kotlinx.android.synthetic.main.activity_main.*
 import java.text.NumberFormat
@@ -20,7 +22,7 @@ class MainPagePresenter(var activity: MainPageActivity) {
 
     private val DEFAULT_ACCOUNT_ID = 1
 
-    private val INCOME_TEXT = "Renda: "
+    private val TOTAL_SPENDING_TEXT = "Gastos totais: "
     private val FRAGMENT_TAG = "fragmentAdicionarLista"
     private val SELECTED_LIST_EXTRA = "listaSelecionada"
 
@@ -64,10 +66,18 @@ class MainPagePresenter(var activity: MainPageActivity) {
 
     fun getAllLists(listDao: ListaDAO) = listDao.getAll()
 
-    fun setUpIncomeText(): String {
-        val account = AccountDAO(activity.getConnection()).getById(DEFAULT_ACCOUNT_ID)
+    fun setUpIncomeText(lists: List<Lista>): String {
+        //val account = AccountDAO(activity.getConnection()).getById(DEFAULT_ACCOUNT_ID)
         val locale = Locale("pt", "BR")
+        var totalSpending = 0.0
+        val itens = ArrayList<Item>()
 
-        return INCOME_TEXT + NumberFormat.getCurrencyInstance(locale).format(account.income)
+        lists.forEach {
+            itens.addAll(ItemDAO(activity.getConnection()).getAllByIdLista(it.id!!))
+        }
+
+        itens.forEach { totalSpending += it.price }
+
+        return TOTAL_SPENDING_TEXT + NumberFormat.getCurrencyInstance(locale).format(totalSpending)
     }
 }
