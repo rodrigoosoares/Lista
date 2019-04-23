@@ -22,7 +22,7 @@ class MainPagePresenter(var activity: MainPageActivity) {
 
     private val DEFAULT_ACCOUNT_ID = 1
 
-    private val INCOME_TEXT = "Renda: "
+    private val TOTAL_SPENDING_TEXT = "Gastos totais: "
     private val FRAGMENT_TAG = "fragmentAdicionarLista"
     private val SELECTED_LIST_EXTRA = "listaSelecionada"
 
@@ -67,17 +67,17 @@ class MainPagePresenter(var activity: MainPageActivity) {
     fun getAllLists(listDao: ListaDAO) = listDao.getAll()
 
     fun setUpIncomeText(lists: List<Lista>): String {
-        val account = AccountDAO(activity.getConnection()).getById(DEFAULT_ACCOUNT_ID)
+        //val account = AccountDAO(activity.getConnection()).getById(DEFAULT_ACCOUNT_ID)
         val locale = Locale("pt", "BR")
-        var spending = 0.0
+        var totalSpending = 0.0
         val itens = ArrayList<Item>()
 
         lists.forEach {
             itens.addAll(ItemDAO(activity.getConnection()).getAllByIdLista(it.id!!))
         }
 
-        itens.forEach { spending += it.price }
+        itens.forEach { totalSpending += it.price }
 
-        return INCOME_TEXT + NumberFormat.getCurrencyInstance(locale).format((account.income - spending))
+        return TOTAL_SPENDING_TEXT + NumberFormat.getCurrencyInstance(locale).format(totalSpending)
     }
 }

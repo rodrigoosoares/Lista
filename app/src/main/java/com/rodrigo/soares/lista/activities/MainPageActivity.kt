@@ -8,7 +8,6 @@ import android.view.ContextMenu
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
-import com.rodrigo.soares.lista.R
 import com.rodrigo.soares.lista.adapters.ReclyclerViewListsAdapter
 import com.rodrigo.soares.lista.dao.impl.AccountDAO
 import com.rodrigo.soares.lista.dao.impl.ListaDAO
@@ -19,6 +18,9 @@ import com.rodrigo.soares.lista.models.Lista
 import com.rodrigo.soares.lista.presenters.MainPagePresenter
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.toolbar_layout.*
+import android.view.MotionEvent
+import com.rodrigo.soares.lista.R
+
 
 class MainPageActivity : AppCompatActivity() {
 
@@ -35,7 +37,7 @@ class MainPageActivity : AppCompatActivity() {
 
         //TODO tranferir esse cara para a SplashScreen
             //this.deleteDatabase("Listas.db")
-            //mConnection = DBConnection(this)
+            mConnection = DBConnection(this)
             //AccountDAO(mConnection!!).save(Account(0.0))
         setUp()
 
@@ -78,7 +80,7 @@ class MainPageActivity : AppCompatActivity() {
     }
 
     private fun setUp(){
-        setContentView(R.layout.activity_main)
+        setContentView(com.rodrigo.soares.lista.R.layout.activity_main)
         setSupportActionBar(toolbar)
 
         mPresenter = MainPagePresenter(this)
@@ -88,9 +90,13 @@ class MainPageActivity : AppCompatActivity() {
         listDao = ListaDAO(mConnection!!)
         lists.addAll(mPresenter!!.getAllLists(listDao!!))
 
-        //AccountDAO(mConnection!!).update(Account(1, 10000.00))
-
         tvIncome.text = mPresenter!!.setUpIncomeText(lists)
+
+        rvLists.setOnTouchListener{ v, _ ->
+            v.parent
+                .requestDisallowInterceptTouchEvent(true) // Pour Le Scroll pour qu'il soit opérationnel
+            false
+        }
     }
 
     fun updateLists(){
