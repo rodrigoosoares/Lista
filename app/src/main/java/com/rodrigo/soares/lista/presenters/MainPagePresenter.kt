@@ -78,6 +78,6 @@ class MainPagePresenter(var activity: MainPageActivity) {
 
         itens.forEach { totalSpending += it.price }
 
-        return TOTAL_SPENDING_TEXT + NumberFormat.getCurrencyInstance(locale).format(totalSpending)
+        return NumberFormat.getCurrencyInstance(locale).format(totalSpending)
     }
 }

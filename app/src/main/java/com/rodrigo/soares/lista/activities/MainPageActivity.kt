@@ -3,22 +3,20 @@ package com.rodrigo.soares.lista.activities
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
+import android.support.v4.content.res.ResourcesCompat
 import android.support.v7.app.AppCompatActivity
 import android.view.ContextMenu
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import com.rodrigo.soares.lista.adapters.ReclyclerViewListsAdapter
-import com.rodrigo.soares.lista.dao.impl.AccountDAO
 import com.rodrigo.soares.lista.dao.impl.ListaDAO
 import com.rodrigo.soares.lista.database.DBConnection
 import com.rodrigo.soares.lista.extensions.setNightMode
-import com.rodrigo.soares.lista.models.Account
 import com.rodrigo.soares.lista.models.Lista
 import com.rodrigo.soares.lista.presenters.MainPagePresenter
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.toolbar_layout.*
-import android.view.MotionEvent
 import com.rodrigo.soares.lista.R
 
 
@@ -36,9 +34,8 @@ class MainPageActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
 
         //TODO tranferir esse cara para a SplashScreen
-            //this.deleteDatabase("Listas.db")
+//            this.deleteDatabase("Listas.db")
             mConnection = DBConnection(this)
-            //AccountDAO(mConnection!!).save(Account(0.0))
         setUp()
 
         mPresenter?.setUpDragNDropRecyclerView(mAdapter!!)
@@ -80,7 +77,8 @@ class MainPageActivity : AppCompatActivity() {
     }
 
     private fun setUp(){
-        setContentView(com.rodrigo.soares.lista.R.layout.activity_main)
+        setContentView(R.layout.activity_main)
+        window.statusBarColor = ResourcesCompat.getColor(resources, R.color.colorDark, null)
         setSupportActionBar(toolbar)
 
         mPresenter = MainPagePresenter(this)
@@ -89,14 +87,6 @@ class MainPageActivity : AppCompatActivity() {
 
         listDao = ListaDAO(mConnection!!)
         lists.addAll(mPresenter!!.getAllLists(listDao!!))
-
-        tvIncome.text = mPresenter!!.setUpIncomeText(lists)
-
-        rvLists.setOnTouchListener{ v, _ ->
-            v.parent
-                .requestDisallowInterceptTouchEvent(true) // Pour Le Scroll pour qu'il soit opérationnel
-            false
-        }
     }
 
     fun updateLists(){

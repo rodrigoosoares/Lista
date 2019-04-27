@@ -12,7 +12,7 @@ import com.rodrigo.soares.lista.activities.MainPageActivity
 import com.rodrigo.soares.lista.dao.impl.ItemDAO
 import com.rodrigo.soares.lista.models.Lista
 import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.row_listas_pagina_principal.view.*
+import kotlinx.android.synthetic.main.row_list_main_page.view.*
 import java.text.NumberFormat
 import java.util.*
 
@@ -23,8 +23,7 @@ class ReclyclerViewListsAdapter(val activity: MainPageActivity, val lists: Mutab
     private val REMOVE_LIST_SNACKBAR_TEXT = " excluída"
 
     override fun onCreateViewHolder(parent: ViewGroup, p1: Int): ViewHolder {
-        val view: View = LayoutInflater.from(parent.context).inflate(R.layout.row_listas_pagina_principal, parent, false)
-
+        val view: View = LayoutInflater.from(parent.context).inflate(R.layout.row_list_main_page, parent, false)
         return ViewHolder(view, activity, lists)
     }
 
