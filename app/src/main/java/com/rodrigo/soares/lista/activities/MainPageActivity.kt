@@ -32,13 +32,10 @@ class MainPageActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         setNightMode()
         super.onCreate(savedInstanceState)
-
         //TODO tranferir esse cara para a SplashScreen
 //            this.deleteDatabase("Listas.db")
-            mConnection = DBConnection(this)
+//            mConnection = DBConnection(this)
         setUp()
-
-        mPresenter?.setUpDragNDropRecyclerView(mAdapter!!)
     }
 
     override fun onResume() {
@@ -47,8 +44,8 @@ class MainPageActivity : AppCompatActivity() {
     }
 
     override fun onDestroy() {
-        mConnection?.close()
         super.onDestroy()
+        mConnection?.close()
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -78,20 +75,24 @@ class MainPageActivity : AppCompatActivity() {
 
     private fun setUp(){
         setContentView(R.layout.activity_main)
-        window.statusBarColor = ResourcesCompat.getColor(resources, R.color.colorDark, null)
         setSupportActionBar(toolbar)
+        window.statusBarColor = ResourcesCompat.getColor(resources, R.color.colorDark, null)
 
         mPresenter = MainPagePresenter(this)
         mConnection = DBConnection(this)
         mAdapter = ReclyclerViewListsAdapter(this, lists)
-
         listDao = ListaDAO(mConnection!!)
+
         lists.addAll(mPresenter!!.getAllLists(listDao!!))
+        mPresenter?.setUpDragNDropRecyclerView(mAdapter!!)
+        fabAddList.setOnClickListener {
+            mPresenter!!.openDialogAddList()
+        }
     }
 
     fun updateLists(){
         lists.clear()
-        lists.addAll(mPresenter!!.getAllLists(listDao!!))
+        lists.addAll(mPresenter!!.getAllLists(listDao!!).sortedBy { it.position })
         tvIncome.text = mPresenter!!.setUpIncomeText(lists)
         mAdapter?.notifyDataSetChanged()
     }

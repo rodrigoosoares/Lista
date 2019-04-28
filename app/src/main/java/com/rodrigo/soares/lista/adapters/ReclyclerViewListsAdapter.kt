@@ -35,7 +35,6 @@ class ReclyclerViewListsAdapter(val activity: MainPageActivity, val lists: Mutab
         var itensValue = 0.0
         ItemDAO(activity.getConnection()).getAllByIdLista(lists[position].id!!).forEach { itensValue += it.price }
         holder.valueItens.text = NumberFormat.getCurrencyInstance(Locale("pt", "BR")).format(itensValue)
-        //holder.colorList.setBackgroundColor(Color.parseColor(lists[position].corTitulo))
         val drawable = holder.colorList.background as GradientDrawable
         drawable.setColor(Color.parseColor(lists[position].corTitulo))
     }
@@ -66,15 +65,18 @@ class ReclyclerViewListsAdapter(val activity: MainPageActivity, val lists: Mutab
     }
 
     fun removeItem(position: Int) {
-        Snackbar.make(activity.rlPaginaPrincipal, lists[position].titulo + REMOVE_LIST_SNACKBAR_TEXT, Snackbar.LENGTH_LONG)
+        val removedList = lists.removeAt(position)
+        notifyItemRemoved(position)
+        Snackbar.make(activity.rlPaginaPrincipal, removedList.titulo + REMOVE_LIST_SNACKBAR_TEXT, Snackbar.LENGTH_SHORT)
             .setAction(REMOVE_TEXT_UNDO) {
-                notifyItemChanged(position)
-            }.addCallback(object: Snackbar.Callback(){
+                lists.add(position, removedList)
+                notifyItemInserted(position)
+            }
+            .addCallback(object: Snackbar.Callback(){
                 override fun onDismissed(transientBottomBar: Snackbar?, event: Int) {
-                    if (event == DISMISS_EVENT_TIMEOUT) {
-                        activity.getListDao()!!.remove(lists[position].id!!.toInt())
-                        lists.removeAt(position)
-                        notifyItemRemoved(position)
+                    if (event == DISMISS_EVENT_TIMEOUT || event == DISMISS_EVENT_CONSECUTIVE) {
+                        activity.getListDao()!!.remove(removedList)
+                        ItemDAO(activity.getConnection()).removeByIdLista(removedList.id!!)
                     }
                 }
             }).show()

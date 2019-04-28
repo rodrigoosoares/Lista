@@ -11,9 +11,7 @@ class AddItemPresenter(val activity: AddItemActivity) {
 
     fun saveItem(connection: DBConnection, selectedList: Lista){
         val itemDao = ItemDAO(connection)
-
         itemDao.save(Item(activity.etItemName.text.toString(), activity.etItemPrice.text.toString().toDouble(), selectedList.id, itemDao.getQtByIdLista(selectedList.id!!)))
-
         activity.finish()
     }
 }

@@ -2,6 +2,8 @@ package com.rodrigo.soares.lista.activities
 
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.support.v4.content.res.ResourcesCompat
+import android.view.MenuItem
 import com.rodrigo.soares.lista.R
 import com.rodrigo.soares.lista.database.DBConnection
 import com.rodrigo.soares.lista.models.Lista
@@ -18,8 +20,17 @@ class AddItemActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         setUp()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        mConnection!!.close()
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+        onBackPressed()
+        return true
     }
 
     fun setUp(){
@@ -27,6 +38,7 @@ class AddItemActivity : AppCompatActivity() {
         setSupportActionBar(toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setDisplayShowHomeEnabled(true)
+        window.statusBarColor = ResourcesCompat.getColor(resources, R.color.colorDark, null)
 
         mPresenter = AddItemPresenter(this)
         mConnection = DBConnection(this)
@@ -35,14 +47,5 @@ class AddItemActivity : AppCompatActivity() {
         btnAddItem.setOnClickListener {
             mPresenter!!.saveItem(mConnection!!, selectedList)
         }
-
     }
 }
-
-/*
-    O aplicativo será um controle de gastos.
-        O usuário poderá adicionar listas de compras (MainPageActivity) (Mercado, preças do pc etc)
-            - Na MainPageActivity o usuário poderá ver a quantidade total de seus gastos
-        O usuário poderá em cada lista (SelectedListActivity) adicionar itens
-            - Cada item possuirá um nome, um valor e um link (opicional)
-*/
