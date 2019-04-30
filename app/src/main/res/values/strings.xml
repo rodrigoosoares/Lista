@@ -1,13 +1,20 @@
 <resources>
+    <!-- General -->
     <string name="app_name">Lista</string>
 
-    <!--Main Activity-->
-    <!--Dialog Criar lista-->
-    <string name="btn_criar">Criar</string>
-    <string name="nome_da_lista_hint">Nome da lista</string>
-    <string name="criar_nova_lista_titulo">Criar uma nova lista</string>
+    <!-- TextViews -->
+    <string name="text_total_spending">Gastos totais</string>
+    <string name="text_menu_configuration">Configurações</string>
+    <string name="text_create_new_list_title">Criar uma nova lista</string>
+    <string name="text_add_new_item_title">Adicione um novo item</string>
+    <string name="hint_list_name">Nome da lista</string>
+    <string name="hint_name">Nome</string>
+    <string name="hint_price">Preço</string>
+    <string name="hint_optional_link">Link (Opcional)</string>
 
-    <!--Listas-->
-    <string name="novo_item_branco">Novo item</string>
-    <string name="title_activity_configuracoes">Settings</string>
+    <!-- Buttons -->
+    <string name="btn_criar">Criar</string>
+    <string name="btn_add">Adicionar</string>
+
+
 </resources>

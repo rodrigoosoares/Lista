@@ -24,7 +24,7 @@ class DynamicEventHelper(val callback: DynamicEventsCallback) : ItemTouchHelper.
         return true
     }
 
-    override fun onSwiped(viewHolder: RecyclerView.ViewHolder, p1: Int) {
+    override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
         callback.removeItem(viewHolder.adapterPosition)
     }
 

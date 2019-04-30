@@ -3,24 +3,21 @@ package com.rodrigo.soares.lista.activities
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
+import android.support.v4.content.res.ResourcesCompat
 import android.support.v7.app.AppCompatActivity
 import android.view.ContextMenu
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import com.rodrigo.soares.lista.adapters.ReclyclerViewListsAdapter
-import com.rodrigo.soares.lista.dao.impl.AccountDAO
 import com.rodrigo.soares.lista.dao.impl.ListaDAO
 import com.rodrigo.soares.lista.database.DBConnection
 import com.rodrigo.soares.lista.extensions.setNightMode
-import com.rodrigo.soares.lista.models.Account
 import com.rodrigo.soares.lista.models.Lista
 import com.rodrigo.soares.lista.presenters.MainPagePresenter
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.toolbar_layout.*
-import android.view.MotionEvent
 import com.rodrigo.soares.lista.R
-
 
 class MainPageActivity : AppCompatActivity() {
 
@@ -34,14 +31,10 @@ class MainPageActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         setNightMode()
         super.onCreate(savedInstanceState)
-
         //TODO tranferir esse cara para a SplashScreen
-            //this.deleteDatabase("Listas.db")
-            mConnection = DBConnection(this)
-            //AccountDAO(mConnection!!).save(Account(0.0))
+//            this.deleteDatabase("Listas.db")
+//            mConnection = DBConnection(this)
         setUp()
-
-        mPresenter?.setUpDragNDropRecyclerView(mAdapter!!)
     }
 
     override fun onResume() {
@@ -50,8 +43,8 @@ class MainPageActivity : AppCompatActivity() {
     }
 
     override fun onDestroy() {
-        mConnection?.close()
         super.onDestroy()
+        mConnection?.close()
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -80,29 +73,26 @@ class MainPageActivity : AppCompatActivity() {
     }
 
     private fun setUp(){
-        setContentView(com.rodrigo.soares.lista.R.layout.activity_main)
+        setContentView(R.layout.activity_main)
         setSupportActionBar(toolbar)
+        window.statusBarColor = ResourcesCompat.getColor(resources, R.color.colorDark, null)
 
         mPresenter = MainPagePresenter(this)
         mConnection = DBConnection(this)
         mAdapter = ReclyclerViewListsAdapter(this, lists)
-
         listDao = ListaDAO(mConnection!!)
+
         lists.addAll(mPresenter!!.getAllLists(listDao!!))
-
-        tvIncome.text = mPresenter!!.setUpIncomeText(lists)
-
-        rvLists.setOnTouchListener{ v, _ ->
-            v.parent
-                .requestDisallowInterceptTouchEvent(true) // Pour Le Scroll pour qu'il soit opérationnel
-            false
+        mPresenter?.setUpDragNDropRecyclerView(mAdapter!!)
+        fabAddList.setOnClickListener {
+            mPresenter!!.openDialogAddList()
         }
     }
 
     fun updateLists(){
         lists.clear()
-        lists.addAll(mPresenter!!.getAllLists(listDao!!))
-        tvIncome.text = mPresenter!!.setUpIncomeText(lists)
+        lists.addAll(mPresenter!!.getAllLists(listDao!!).sortedBy { it.position })
+        tvSpending.text = mPresenter!!.setUpIncomeText(lists)
         mAdapter?.notifyDataSetChanged()
     }
 

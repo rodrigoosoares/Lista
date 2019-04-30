@@ -3,6 +3,7 @@ package com.rodrigo.soares.lista.presenters
 import android.content.Intent
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.helper.ItemTouchHelper
+import android.widget.LinearLayout
 import com.rodrigo.soares.lista.activities.ConfiguracoesActivity
 import com.rodrigo.soares.lista.activities.MainPageActivity
 import com.rodrigo.soares.lista.activities.SelectedListActivity
@@ -19,16 +20,11 @@ import java.text.NumberFormat
 import java.util.*
 
 class MainPagePresenter(var activity: MainPageActivity) {
-
-    private val DEFAULT_ACCOUNT_ID = 1
-
-    private val TOTAL_SPENDING_TEXT = "Gastos totais: "
     private val FRAGMENT_TAG = "fragmentAdicionarLista"
     private val SELECTED_LIST_EXTRA = "listaSelecionada"
 
     fun setUpDragNDropRecyclerView(rvListsAdapter: ReclyclerViewListsAdapter){
         val rvLists = activity.rvLists
-        val fabAddList = activity.fabAddList
         val callback = object: DynamicEventHelper.DynamicEventsCallback{
             override fun onItemMove(InitialPosition: Int, FinalPosition: Int) {
                 rvListsAdapter.onItemMove(InitialPosition, FinalPosition)
@@ -40,16 +36,11 @@ class MainPagePresenter(var activity: MainPageActivity) {
         val androidItemTouchHelper = ItemTouchHelper(DynamicEventHelper(callback))
 
         androidItemTouchHelper.attachToRecyclerView(rvLists)
-
-        rvLists.layoutManager = LinearLayoutManager(activity)
+        rvLists.layoutManager = LinearLayoutManager(activity, LinearLayout.VERTICAL, false)
         rvLists.adapter = rvListsAdapter
-
-        fabAddList.setOnClickListener {
-            openDialogAddList()
-        }
     }
 
-    private fun openDialogAddList(){
+    fun openDialogAddList(){
         val addListDialog = AddListDialogFragment()
         addListDialog.show(activity.supportFragmentManager, FRAGMENT_TAG)
     }
@@ -78,6 +69,6 @@ class MainPagePresenter(var activity: MainPageActivity) {
 
         itens.forEach { totalSpending += it.price }
 
-        return TOTAL_SPENDING_TEXT + NumberFormat.getCurrencyInstance(locale).format(totalSpending)
+        return NumberFormat.getCurrencyInstance(locale).format(totalSpending)
     }
 }
