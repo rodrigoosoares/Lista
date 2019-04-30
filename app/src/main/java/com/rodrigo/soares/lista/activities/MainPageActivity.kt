@@ -19,7 +19,6 @@ import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.toolbar_layout.*
 import com.rodrigo.soares.lista.R
 
-
 class MainPageActivity : AppCompatActivity() {
 
     private var mPresenter: MainPagePresenter? = null
@@ -93,7 +92,7 @@ class MainPageActivity : AppCompatActivity() {
     fun updateLists(){
         lists.clear()
         lists.addAll(mPresenter!!.getAllLists(listDao!!).sortedBy { it.position })
-        tvIncome.text = mPresenter!!.setUpIncomeText(lists)
+        tvSpending.text = mPresenter!!.setUpIncomeText(lists)
         mAdapter?.notifyDataSetChanged()
     }
 

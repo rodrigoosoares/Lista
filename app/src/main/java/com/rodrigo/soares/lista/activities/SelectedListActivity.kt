@@ -92,6 +92,7 @@ class SelectedListActivity : AppCompatActivity() {
         supportActionBar?.title = selectedList?.titulo
         items.addAll(mPresenter!!.getAllItems(itemDao!!, selectedList!!))
         mPresenter!!.setUpDragNDropRecyclerView(mAdapter!!)
+        mPresenter!!.setListNameTitle(selectedList!!)
 
         fabAddItem.setOnClickListener {
             mPresenter?.toAddItemPage()
@@ -101,6 +102,8 @@ class SelectedListActivity : AppCompatActivity() {
     fun getItemDao() = itemDao!!
 
     fun getSelectedList() = selectedList!!
+
+    fun getPresenter() = mPresenter!!
 
     fun attListItems(){
         items.clear()

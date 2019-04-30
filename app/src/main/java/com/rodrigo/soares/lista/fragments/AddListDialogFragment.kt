@@ -25,7 +25,7 @@ class AddListDialogFragment : DialogFragment() {
             activity?.setTheme(R.style.AppTheme)
         val builder = AlertDialog.Builder(context)
         val inflater = activity?.layoutInflater
-        val layout = inflater?.inflate(R.layout.fragment_custom_dialog, null)
+        val layout = inflater?.inflate(R.layout.fragment_dialog_create_list, null)
         builder.setView(layout)
         val btnCreateList = layout?.findViewById<Button>(R.id.btnCreateList)
         val spColors = layout?.findViewById<Spinner>(R.id.spColors)

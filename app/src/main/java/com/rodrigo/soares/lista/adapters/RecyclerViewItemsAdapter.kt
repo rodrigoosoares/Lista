@@ -74,8 +74,14 @@ class RecyclerViewItemsAdapter(val activity: SelectedListActivity, val items: Mu
             }).show()
     }
 
-    class ViewHolder(view: View, activity: AppCompatActivity, items: MutableList<Item>) : RecyclerView.ViewHolder(view) {
+    class ViewHolder(view: View, activity: SelectedListActivity, items: MutableList<Item>) : RecyclerView.ViewHolder(view) {
         val name = view.tvNameItemRow
         val price = view.tvPriceItemRow
+
+        init {
+            view.setOnClickListener {
+                activity.getPresenter().toItemInfoPage(items[adapterPosition])
+            }
+        }
     }
 }

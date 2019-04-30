@@ -15,33 +15,37 @@
               android:layout_centerHorizontal="true"
               android:layout_below="@+id/toolbar"
               android:layout_margin="10dp"
-              android:textSize="15sp"
-              android:text="Adicione um novo item"
-    />
+              android:textSize="20sp"
+              android:text="@string/text_add_new_item_title"/>
 
     <EditText android:id="@+id/etItemName"
               android:layout_width="match_parent"
               android:layout_height="wrap_content"
               android:layout_below="@+id/tvAddItemTitle"
-              android:hint="Nome"
-    />
+              android:layout_marginTop="10dp"
+              android:hint="@string/hint_name"/>
 
     <EditText android:id="@+id/etItemPrice"
               android:layout_width="match_parent"
               android:layout_height="wrap_content"
               android:layout_below="@+id/etItemName"
-              android:hint="Preço"
-    />
+              android:layout_marginTop="10dp"
+              android:hint="@string/hint_price"/>
+
+    <EditText android:id="@+id/etItemLink"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:layout_below="@+id/etItemPrice"
+              android:layout_marginTop="10dp"
+              android:hint="@string/hint_optional_link"/>
 
     <Button android:id="@+id/btnAddItem"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/etItemPrice"
+            android:layout_below="@+id/etItemLink"
             android:layout_centerHorizontal="true"
+            android:layout_marginTop="30dp"
             android:background="@drawable/button_gradient"
             android:textColor="@android:color/white"
-            android:text="Adicionar"
-    />
-
-
+            android:text="@string/btn_add"/>
 </RelativeLayout>

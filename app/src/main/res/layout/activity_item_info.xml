@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".activities.ItemInfoActivity">
+
+
+    <include layout="@layout/toolbar_layout"
+             app:layout_constraintStart_toStartOf="parent"/>
+
+    <TextView android:id="@+id/tvItemInfoNameTitle"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              app:layout_constraintTop_toBottomOf="@+id/toolbar"
+              app:layout_constraintStart_toStartOf="parent"
+              app:layout_constraintEnd_toEndOf="parent"
+              android:textSize="30sp"
+              android:text="Item "/>
+
+    <TextView android:id="@+id/tvItemInfoName"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              app:layout_constraintTop_toBottomOf="@id/tvItemInfoNameTitle"
+              app:layout_constraintStart_toStartOf="parent"
+              app:layout_constraintEnd_toEndOf="parent"
+              android:textSize="20sp"
+              android:text="Item Name"/>
+
+    <TextView android:id="@+id/tvItemInfoPriceTitle"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              app:layout_constraintTop_toBottomOf="@+id/tvItemInfoName"
+              app:layout_constraintStart_toStartOf="parent"
+              app:layout_constraintEnd_toEndOf="parent"
+              android:layout_marginTop="30dp"
+              android:textSize="30sp"
+              android:text="Preço"/>
+
+    <TextView android:id="@+id/tvItemInfoPrice"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              app:layout_constraintTop_toBottomOf="@id/tvItemInfoPriceTitle"
+              app:layout_constraintStart_toStartOf="parent"
+              app:layout_constraintEnd_toEndOf="parent"
+              android:textSize="20sp"
+              android:text="Item Price"/>
+
+    <TextView android:id="@+id/tvItemInfoLinkTitle"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              app:layout_constraintTop_toBottomOf="@+id/tvItemInfoPrice"
+              app:layout_constraintStart_toStartOf="parent"
+              app:layout_constraintEnd_toEndOf="parent"
+              android:layout_marginTop="30dp"
+              android:textSize="30sp"
+              android:text="Link"/>
+
+    <TextView android:id="@+id/tvItemInfoLink"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              app:layout_constraintTop_toBottomOf="@id/tvItemInfoLinkTitle"
+              app:layout_constraintStart_toStartOf="parent"
+              app:layout_constraintEnd_toEndOf="parent"
+              android:textSize="20sp"
+              android:linksClickable="true"
+              android:autoLink="web"
+              android:text="Item Link"/>
+
+    <Button android:id="@+id/btnDeleteItem"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginBottom="30dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            android:padding="15dp"
+            android:background="@drawable/button_delete_gradient"
+            android:textColor="@android:color/white"
+            android:text="Deletar"/>
+
+</android.support.constraint.ConstraintLayout>

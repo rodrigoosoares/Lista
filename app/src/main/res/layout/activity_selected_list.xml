@@ -17,21 +17,12 @@
                     app:layout_constraintDimensionRatio="3.9:1"
                     android:background="@color/colorDark">
 
-        <TextView
-                  android:layout_width="wrap_content"
-                  android:layout_height="wrap_content"
-                  android:layout_above="@id/tvListaSelecionadaTitulo"
-                  android:layout_centerHorizontal="true"
-                  android:text="Lista Compras para o PC"
-                  android:textSize="15sp"
-                  android:textColor="@android:color/white"/>
-
-        <TextView android:id="@+id/tvListaSelecionadaTitulo"
+        <TextView android:id="@+id/tvSelectedListTitle"
                   android:layout_width="wrap_content"
                   android:layout_height="wrap_content"
                   android:layout_centerInParent="true"
-                  android:layout_margin="5dp"
-                  android:text="Itens"
+                  android:layout_centerHorizontal="true"
+                  android:text="List Title"
                   android:textSize="30sp"
                   android:textColor="@android:color/white"/>
     </RelativeLayout>

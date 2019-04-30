@@ -11,11 +11,13 @@
             android:supportsRtl="true"
             android:theme="@style/AppTheme"
             tools:ignore="GoogleAppIndexingWarning">
+        <activity android:name=".activities.ItemInfoActivity">
+        </activity>
         <activity android:name=".activities.AddItemActivity">
         </activity>
         <activity
                 android:name=".activities.ConfiguracoesActivity"
-                android:label="@string/title_activity_configuracoes">
+                android:label="@string/text_menu_configuration">
         </activity>
         <activity android:name=".activities.EditListActivity">
         </activity>

@@ -11,8 +11,7 @@
         android:fitsSystemWindows="true">
 
     <include layout="@layout/toolbar_layout"
-             app:layout_constraintTop_toTopOf="parent"
-    />
+             app:layout_constraintTop_toTopOf="parent"/>
 
     <RelativeLayout android:id="@+id/rlPaginaPrincipalInfo"
                     android:layout_width="match_parent"
@@ -23,18 +22,18 @@
 
         <TextView android:layout_width="wrap_content"
                   android:layout_height="wrap_content"
-                  android:layout_above="@id/tvIncome"
+                  android:layout_above="@id/tvSpending"
                   android:layout_centerHorizontal="true"
                   android:textSize="20sp"
-                  android:text="Gastos totais"
+                  android:text="@string/text_total_spending"
                   android:padding="5dp"
                   android:textColor="@android:color/white"/>
 
-        <TextView android:id="@+id/tvIncome"
+        <TextView android:id="@+id/tvSpending"
                   android:layout_width="wrap_content"
                   android:layout_height="wrap_content"
                   android:layout_centerInParent="true"
-                  android:textSize="30sp"
+                  android:textSize="25sp"
                   android:text="R$ 10000,00"
                   android:background="@drawable/spending_info_background"
                   android:padding="8dp"

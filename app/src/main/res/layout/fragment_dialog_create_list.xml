@@ -13,7 +13,7 @@
               android:layout_height="wrap_content"
               android:layout_centerHorizontal="true"
               android:textColor="?attr/textcolor"
-              android:text="@string/criar_nova_lista_titulo"/>
+              android:text="@string/text_create_new_list_title"/>
 
     <Spinner android:id="@+id/spColors"
              android:layout_width="wrap_content"
@@ -24,7 +24,7 @@
               android:layout_width="match_parent"
               android:layout_height="wrap_content"
               android:layout_below="@id/spColors"
-              android:hint="@string/nome_da_lista_hint"/>
+              android:hint="@string/hint_list_name"/>
 
     <Button android:id="@+id/btnCreateList"
             android:layout_width="wrap_content"
