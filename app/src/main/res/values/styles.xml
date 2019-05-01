@@ -6,9 +6,10 @@
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
 
-        <item name="backgroundcolor">#FCFCFC</item>
+        <item name="backgroundcolor">#EAEAEA</item>
         <item name="inputbackgroundcolor">#FFFFFF</item>
-        <item name="textcolor">#303030</item>
+        <item name="textcolordark">#303030</item>
+        <item name="textcolorwhite">@android:color/white</item>
         <item name="listasbackgroundcolor">#FFFFFF</item>
         <item name="fragmentbackgroundcolor">#FCFCFC</item>
         <item name="spendinginfocolor">#303030</item>
@@ -23,7 +24,8 @@
 
         <item name="backgroundcolor">#303030</item>
         <item name="inputbackgroundcolor">#5B5B5B</item>
-        <item name="textcolor">#E0E0E0</item>
+        <item name="textcolordark">#E0E0E0</item>
+        <item name="textcolorwhite">@android:color/white</item>
         <item name="listasbackgroundcolor">#5B5B5B</item>
         <item name="fragmentbackgroundcolor">#5B5B5B</item>
     </style>

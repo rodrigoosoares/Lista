@@ -35,8 +35,8 @@ class ReclyclerViewListsAdapter(val activity: MainPageActivity, val lists: Mutab
         var itensValue = 0.0
         ItemDAO(activity.getConnection()).getAllByIdLista(lists[position].id!!).forEach { itensValue += it.price }
         holder.valueItens.text = NumberFormat.getCurrencyInstance(Locale("pt", "BR")).format(itensValue)
-        val drawable = holder.colorList.background as GradientDrawable
-        drawable.setColor(Color.parseColor(lists[position].corTitulo))
+//        val drawable = holder.colorList.background as GradientDrawable
+//        drawable.setColor(Color.parseColor(lists[position].corTitulo))
     }
 
     fun onItemMove(initialPosition: Int, finalPosition: Int) {
@@ -86,7 +86,7 @@ class ReclyclerViewListsAdapter(val activity: MainPageActivity, val lists: Mutab
         val title = view.tvNameListRow
         val qtItem = view.tvQtItemListRow
         val valueItens = view.tvValueItemListRow
-        val colorList = view.ivListColor
+//        val colorList = view.ivListColor
 
         init {
             view.setOnClickListener {

@@ -3,7 +3,8 @@
     <declare-styleable name="ds">
         <attr name="backgroundcolor" format="color"/>
         <attr name="inputbackgroundcolor" format="color"/>
-        <attr name="textcolor" format="color"/>
+        <attr name="textcolordark" format="color"/>
+        <attr name="textcolorwhite" format="color"/>
         <attr name="listasbackgroundcolor" format="color"/>
         <attr name="fragmentbackgroundcolor" format="color"/>
         <attr name="spendinginfocolor" format="color"/>

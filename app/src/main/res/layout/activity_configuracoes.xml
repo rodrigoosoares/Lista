@@ -18,7 +18,7 @@
         <TextView android:layout_width="wrap_content"
                   android:layout_height="wrap_content"
                   android:layout_centerVertical="true"
-                  android:textColor="?attr/textcolor"
+                  android:textColor="?attr/textcolordark"
                   android:text="Modo escuro"/>
 
         <android.support.v7.widget.SwitchCompat android:id="@+id/swModoEscuro"

@@ -16,5 +16,8 @@
     <string name="btn_criar">Criar</string>
     <string name="btn_add">Adicionar</string>
 
+    <!-- Dialog -->
+    <string name="dialogDeleteItem">Deseja mesmo deletar esse item?</string>
+
 
 </resources>

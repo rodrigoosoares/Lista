@@ -18,6 +18,7 @@
               app:layout_constraintStart_toStartOf="parent"
               app:layout_constraintEnd_toEndOf="parent"
               android:textSize="30sp"
+              android:textColor="?attr/textcolordark"
               android:text="Item "/>
 
     <TextView android:id="@+id/tvItemInfoName"
@@ -27,6 +28,7 @@
               app:layout_constraintStart_toStartOf="parent"
               app:layout_constraintEnd_toEndOf="parent"
               android:textSize="20sp"
+              android:textColor="?attr/textcolordark"
               android:text="Item Name"/>
 
     <TextView android:id="@+id/tvItemInfoPriceTitle"
@@ -37,6 +39,7 @@
               app:layout_constraintEnd_toEndOf="parent"
               android:layout_marginTop="30dp"
               android:textSize="30sp"
+              android:textColor="?attr/textcolordark"
               android:text="Preço"/>
 
     <TextView android:id="@+id/tvItemInfoPrice"
@@ -46,6 +49,7 @@
               app:layout_constraintStart_toStartOf="parent"
               app:layout_constraintEnd_toEndOf="parent"
               android:textSize="20sp"
+              android:textColor="?attr/textcolordark"
               android:text="Item Price"/>
 
     <TextView android:id="@+id/tvItemInfoLinkTitle"
@@ -56,6 +60,7 @@
               app:layout_constraintEnd_toEndOf="parent"
               android:layout_marginTop="30dp"
               android:textSize="30sp"
+              android:textColor="?attr/textcolordark"
               android:text="Link"/>
 
     <TextView android:id="@+id/tvItemInfoLink"
@@ -65,6 +70,7 @@
               app:layout_constraintStart_toStartOf="parent"
               app:layout_constraintEnd_toEndOf="parent"
               android:textSize="20sp"
+              android:textColor="?attr/textcolordark"
               android:linksClickable="true"
               android:autoLink="web"
               android:text="Item Link"/>
