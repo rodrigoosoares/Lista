@@ -1,6 +1,9 @@
 <resources>
     <!-- General -->
     <string name="app_name">Lista</string>
+    <string name="yes">Sim</string>
+    <string name="no">Não</string>
+    <string name="cancel">Cancelar</string>
 
     <!-- TextViews -->
     <string name="text_total_spending">Gastos totais</string>
@@ -15,6 +18,7 @@
     <!-- Buttons -->
     <string name="btn_criar">Criar</string>
     <string name="btn_add">Adicionar</string>
+    <string name="btn_delete">Deletar</string>
 
     <!-- Dialog -->
     <string name="dialogDeleteItem">Deseja mesmo deletar esse item?</string>

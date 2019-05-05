@@ -28,14 +28,11 @@ class AddListDialogFragment : DialogFragment() {
         val layout = inflater?.inflate(R.layout.fragment_dialog_create_list, null)
         builder.setView(layout)
         val btnCreateList = layout?.findViewById<Button>(R.id.btnCreateList)
-        val spColors = layout?.findViewById<Spinner>(R.id.spColors)
         btnCreateList?.setOnClickListener {
             val listName = layout.findViewById<EditText>(R.id.etListName).text.toString()
-            (activity as MainPageActivity).getListDao()!!.save(Lista(listName, spColors?.selectedItem.toString()))
+            (activity as MainPageActivity).getListDao()!!.save(Lista(listName))
             dismiss()
         }
-        val spinnerAdapter = SpinnerColorsAdapter(context)
-        spColors?.adapter = spinnerAdapter
         return builder.create()
     }
 

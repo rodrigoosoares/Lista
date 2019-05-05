@@ -31,7 +31,6 @@ class ReclyclerViewListsAdapter(val activity: MainPageActivity, val lists: Mutab
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.title.text = lists[position].titulo
-        holder.qtItem.text = ItemDAO(activity.getConnection()).getQtByIdLista(lists[position].id!!).toString()
         var itensValue = 0.0
         ItemDAO(activity.getConnection()).getAllByIdLista(lists[position].id!!).forEach { itensValue += it.price }
         holder.valueItens.text = NumberFormat.getCurrencyInstance(Locale("pt", "BR")).format(itensValue)
@@ -84,7 +83,6 @@ class ReclyclerViewListsAdapter(val activity: MainPageActivity, val lists: Mutab
 
     class ViewHolder(view: View, activity: MainPageActivity, lists: MutableList<Lista>) : RecyclerView.ViewHolder(view) {
         val title = view.tvNameListRow
-        val qtItem = view.tvQtItemListRow
         val valueItens = view.tvValueItemListRow
 //        val colorList = view.ivListColor
 

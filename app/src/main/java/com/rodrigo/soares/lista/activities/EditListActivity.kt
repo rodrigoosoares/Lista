@@ -1,6 +1,7 @@
 package com.rodrigo.soares.lista.activities
 
 import android.os.Bundle
+import android.support.v4.content.res.ResourcesCompat
 import android.support.v7.app.AppCompatActivity
 import com.rodrigo.soares.lista.R
 import com.rodrigo.soares.lista.adapters.SpinnerColorsAdapter
@@ -38,26 +39,20 @@ class EditListActivity : AppCompatActivity() {
 
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setDisplayShowHomeEnabled(true)
+        window.statusBarColor = ResourcesCompat.getColor(resources, R.color.colorDark, null)
 
         val list = intent.getSerializableExtra(SelectedListActivity.LIST_TO_EDIT) as Lista
         mPresenter = EditListPresenter(this)
         mConnection = DBConnection(this)
         listDao = ListaDAO(mConnection!!)
-
         val spinnerAdapter = SpinnerColorsAdapter(this)
 
         supportActionBar?.title = EDIT_LIST_ACTIONBAR_TITLE + list.titulo
         etEditarNomeLista.setText(list.titulo)
         spEditListColor.adapter = spinnerAdapter
 
-        Colors.colors.forEachIndexed { index, element ->
-            if(element == list.corTitulo) {
-                spEditListColor.setSelection(index)
-            }
-        }
-
         btnSaveEditedList.setOnClickListener {
-            mPresenter!!.btnSavedEditedListOnClickListener(Lista(list.id!!.toInt(), etEditarNomeLista.text.toString(), spEditListColor.selectedItem.toString(), list.position!!.toInt()))
+            mPresenter!!.btnSavedEditedListOnClickListener(Lista(list.id!!.toInt(), etEditarNomeLista.text.toString(), list.position!!.toInt()))
         }
     }
 

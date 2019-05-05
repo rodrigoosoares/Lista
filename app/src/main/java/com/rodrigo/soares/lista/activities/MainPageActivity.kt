@@ -75,6 +75,7 @@ class MainPageActivity : AppCompatActivity() {
     private fun setUp(){
         setContentView(R.layout.activity_main)
         setSupportActionBar(toolbar)
+        supportActionBar!!.title = "Controle de gastos"
         window.statusBarColor = ResourcesCompat.getColor(resources, R.color.colorDark, null)
 
         mPresenter = MainPagePresenter(this)

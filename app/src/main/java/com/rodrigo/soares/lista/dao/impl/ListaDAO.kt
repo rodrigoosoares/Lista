@@ -14,8 +14,6 @@ class ListaDAO(private val connection: DBConnection) : BasicDAO<Lista> {
         val values = ContentValues()
 
         values.put("Titulo", entity.titulo.trim())
-        values.put("CorTitulo", entity.corTitulo)
-        values.put("CorTitulo", entity.corTitulo)
         values.put("Position", this.getAll().size)
 
         val newRowId = db.insert("Lista", null, values)
@@ -27,7 +25,7 @@ class ListaDAO(private val connection: DBConnection) : BasicDAO<Lista> {
     override fun getById(id: Int): Lista {
         val db = connection.readableDatabase
 
-        val projection = arrayOf(BaseColumns._ID, "Titulo", "CorTitulo", "Position")
+        val projection = arrayOf(BaseColumns._ID, "Titulo", "Position")
 
         val selection = BaseColumns._ID + " = ?"
         val selectionArgs = arrayOf(Integer.toString(id))
@@ -41,16 +39,15 @@ class ListaDAO(private val connection: DBConnection) : BasicDAO<Lista> {
         cursor.moveToNext()
         val listaId = cursor.getInt(cursor.getColumnIndexOrThrow(BaseColumns._ID))
         val listaTitulo = cursor.getString(cursor.getColumnIndexOrThrow("Titulo"))
-        val listaCorTItulo = cursor.getString(cursor.getColumnIndexOrThrow("CorTitulo"))
         val position = cursor.getInt(cursor.getColumnIndexOrThrow("Position"))
         cursor.close()
-        return Lista(listaId, listaTitulo, listaCorTItulo, position)
+        return Lista(listaId, listaTitulo, position)
     }
 
     override fun getAll(): List<Lista> {
         val db = connection.readableDatabase
 
-        val projection = arrayOf(BaseColumns._ID, "Titulo", "CorTitulo", "Position")
+        val projection = arrayOf(BaseColumns._ID, "Titulo", "Position")
 
         val sortOrder = "Position ASC"
 
@@ -64,9 +61,8 @@ class ListaDAO(private val connection: DBConnection) : BasicDAO<Lista> {
         while (cursor.moveToNext()) {
             val listaId = cursor.getInt(cursor.getColumnIndexOrThrow(BaseColumns._ID))
             val listaTitulo = cursor.getString(cursor.getColumnIndexOrThrow("Titulo"))
-            val listaCorTItulo = cursor.getString(cursor.getColumnIndexOrThrow("CorTitulo"))
             val position = cursor.getInt(cursor.getColumnIndexOrThrow("Position"))
-            listas.add(Lista(listaId, listaTitulo, listaCorTItulo, position))
+            listas.add(Lista(listaId, listaTitulo, position))
         }
         cursor.close()
 
@@ -91,7 +87,6 @@ class ListaDAO(private val connection: DBConnection) : BasicDAO<Lista> {
 
         val values = ContentValues()
         values.put("Titulo", entiry.titulo.trim())
-        values.put("CorTitulo", entiry.corTitulo)
         values.put("Position", entiry.position)
 
         val selection = BaseColumns._ID + " LIKE ?"

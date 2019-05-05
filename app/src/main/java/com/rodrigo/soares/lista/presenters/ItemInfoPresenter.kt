@@ -27,11 +27,11 @@ class ItemInfoPresenter(val activity: ItemInfoActivity) {
         val dialogBuild = AlertDialog.Builder(activity)
 
         dialogBuild.setMessage(R.string.dialogDeleteItem)
-                   .setPositiveButton("Sim") { dialog, which ->
+                   .setPositiveButton(R.string.yes) { dialog, which ->
                        ItemDAO(activity.getConnection()!!).remove(selectedItem)
                        activity.finish()
                    }
-                   .setNegativeButton("Cancelar") { dialog, which ->
+                   .setNegativeButton(R.string.cancel) { dialog, which ->
                        dialog.cancel()
                    }
                    .create()

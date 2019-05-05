@@ -15,15 +15,10 @@
               android:textColor="?attr/textcolordark"
               android:text="@string/text_create_new_list_title"/>
 
-    <Spinner android:id="@+id/spColors"
-             android:layout_width="wrap_content"
-             android:layout_height="wrap_content"
-             android:layout_below="@id/tvDialogTitle"/>
-
     <EditText android:id="@+id/etListName"
               android:layout_width="match_parent"
               android:layout_height="wrap_content"
-              android:layout_below="@id/spColors"
+              android:layout_below="@id/tvDialogTitle"
               android:hint="@string/hint_list_name"/>
 
     <Button android:id="@+id/btnCreateList"

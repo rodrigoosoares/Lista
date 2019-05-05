@@ -4,16 +4,15 @@ import android.provider.BaseColumns
 import java.io.Serializable
 import java.util.*
 
-class Lista constructor(var titulo: String, var corTitulo: String) : Serializable, BaseColumns {
+class Lista constructor(var titulo: String) : Serializable, BaseColumns {
 
     var id: Int? = null
     var itens: ArrayList<Item>? = null
     var position: Int? = null
 
-    constructor(id: Int, titulo: String, corTitulo: String, position: Int) : this(titulo, corTitulo) {
+    constructor(id: Int, titulo: String, position: Int) : this(titulo) {
         this.id = id
         this.titulo = titulo
-        this.corTitulo = corTitulo
         this.position = position
     }
 
@@ -30,7 +29,7 @@ class Lista constructor(var titulo: String, var corTitulo: String) : Serializabl
 
     companion object {
         val CREATE_TABLE_LISTA_QUERY =
-            "CREATE TABLE Lista (" + BaseColumns._ID + " INTEGER PRIMARY KEY, Titulo TEXT, CorTitulo TEXT, Position INTEGER)"
+            "CREATE TABLE Lista (" + BaseColumns._ID + " INTEGER PRIMARY KEY, Titulo TEXT, Position INTEGER)"
         val DROP_TABLE_LISTA_QUERY = "DROP TABLE IF EXISTS Lista"
     }
 }
