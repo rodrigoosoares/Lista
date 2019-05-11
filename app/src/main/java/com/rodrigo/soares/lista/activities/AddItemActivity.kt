@@ -38,7 +38,7 @@ class AddItemActivity : AppCompatActivity() {
         setSupportActionBar(toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setDisplayShowHomeEnabled(true)
-        window.statusBarColor = ResourcesCompat.getColor(resources, R.color.colorDark, null)
+        window.statusBarColor = ResourcesCompat.getColor(resources, R.color.colorPrimaryDark, null)
 
         mPresenter = AddItemPresenter(this)
         mConnection = DBConnection(this)

@@ -41,7 +41,7 @@ class ItemInfoActivity : AppCompatActivity() {
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
         supportActionBar!!.setDisplayShowHomeEnabled(true)
         supportActionBar!!.title = "Item Info"
-        window.statusBarColor = ResourcesCompat.getColor(resources, R.color.colorDark, null)
+        window.statusBarColor = ResourcesCompat.getColor(resources, R.color.colorPrimaryDark, null)
 
         val selectedItem = intent.getSerializableExtra(SELECTED_ITEM_EXTRA) as Item
         mConnection = DBConnection(this)

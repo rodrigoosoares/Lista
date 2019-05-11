@@ -10,10 +10,8 @@ import android.support.v4.app.DialogFragment
 import android.support.v7.app.AppCompatDelegate
 import android.widget.Button
 import android.widget.EditText
-import android.widget.Spinner
 import com.rodrigo.soares.lista.R
 import com.rodrigo.soares.lista.activities.MainPageActivity
-import com.rodrigo.soares.lista.adapters.SpinnerColorsAdapter
 import com.rodrigo.soares.lista.models.Lista
 
 class AddListDialogFragment : DialogFragment() {

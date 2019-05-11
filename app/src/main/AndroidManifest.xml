@@ -11,14 +11,20 @@
             android:supportsRtl="true"
             android:theme="@style/AppTheme"
             tools:ignore="GoogleAppIndexingWarning">
+        <activity android:name=".activities.SplashScreenActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+        </activity>
+
         <activity android:name=".activities.ItemInfoActivity">
         </activity>
+
         <activity android:name=".activities.AddItemActivity">
         </activity>
-        <activity
-                android:name=".activities.ConfiguracoesActivity"
-                android:label="@string/text_menu_configuration">
-        </activity>
+
         <activity android:name=".activities.EditListActivity">
         </activity>
         <activity
@@ -26,11 +32,6 @@
                 android:windowSoftInputMode="adjustResize">
         </activity>
         <activity android:name=".activities.MainPageActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
-
-                <category android:name="android.intent.category.LAUNCHER"/>
-            </intent-filter>
         </activity>
     </application>
 

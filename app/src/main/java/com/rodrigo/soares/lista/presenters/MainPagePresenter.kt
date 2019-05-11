@@ -4,11 +4,9 @@ import android.content.Intent
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.helper.ItemTouchHelper
 import android.widget.LinearLayout
-import com.rodrigo.soares.lista.activities.ConfiguracoesActivity
 import com.rodrigo.soares.lista.activities.MainPageActivity
 import com.rodrigo.soares.lista.activities.SelectedListActivity
 import com.rodrigo.soares.lista.adapters.ReclyclerViewListsAdapter
-import com.rodrigo.soares.lista.dao.impl.AccountDAO
 import com.rodrigo.soares.lista.dao.impl.ItemDAO
 import com.rodrigo.soares.lista.dao.impl.ListaDAO
 import com.rodrigo.soares.lista.fragments.AddListDialogFragment
@@ -49,10 +47,6 @@ class MainPagePresenter(var activity: MainPageActivity) {
         val intent = Intent(activity, SelectedListActivity::class.java)
         intent.putExtra(SELECTED_LIST_EXTRA, selectedList)
         activity.startActivity(intent)
-    }
-
-    fun toConfigPage() {
-        activity.startActivityForResult(Intent(activity, ConfiguracoesActivity::class.java), activity.getRequestCode())
     }
 
     fun getAllLists(listDao: ListaDAO) = listDao.getAll()

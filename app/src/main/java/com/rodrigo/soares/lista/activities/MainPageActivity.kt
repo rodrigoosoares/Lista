@@ -17,7 +17,9 @@ import com.rodrigo.soares.lista.models.Lista
 import com.rodrigo.soares.lista.presenters.MainPagePresenter
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.toolbar_layout.*
+import android.view.WindowManager
 import com.rodrigo.soares.lista.R
+
 
 class MainPageActivity : AppCompatActivity() {
 
@@ -31,9 +33,6 @@ class MainPageActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         setNightMode()
         super.onCreate(savedInstanceState)
-        //TODO tranferir esse cara para a SplashScreen
-//            this.deleteDatabase("Listas.db")
-//            mConnection = DBConnection(this)
         setUp()
     }
 
@@ -47,36 +46,10 @@ class MainPageActivity : AppCompatActivity() {
         mConnection?.close()
     }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        if(requestCode == REQUEST_CONFIG && resultCode == Activity.RESULT_OK)
-            recreate()
-    }
-
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        menuInflater.inflate(R.menu.main_menu, menu)
-        return true
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-        when(item?.itemId){
-            R.id.main_menu_config -> {
-                mPresenter?.toConfigPage()
-                return true
-            }
-        }
-        return false
-    }
-
-    override fun onCreateContextMenu(menu: ContextMenu?, v: View?, menuInfo: ContextMenu.ContextMenuInfo?) {
-        val inflater = menuInflater
-        inflater.inflate(R.menu.lista_menu, menu)
-    }
-
     private fun setUp(){
         setContentView(R.layout.activity_main)
         setSupportActionBar(toolbar)
-        supportActionBar!!.title = "Controle de gastos"
-        window.statusBarColor = ResourcesCompat.getColor(resources, R.color.colorDark, null)
+        window.statusBarColor = ResourcesCompat.getColor(resources, R.color.colorPrimaryDark, null)
 
         mPresenter = MainPagePresenter(this)
         mConnection = DBConnection(this)
@@ -102,10 +75,4 @@ class MainPageActivity : AppCompatActivity() {
     fun getConnection() = mConnection as DBConnection
 
     fun getPresenter() = mPresenter
-
-    fun getRequestCode() = REQUEST_CONFIG
-
-    companion object {
-        val REQUEST_CONFIG = 0
-    }
 }

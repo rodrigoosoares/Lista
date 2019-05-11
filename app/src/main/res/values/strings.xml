@@ -1,6 +1,6 @@
 <resources>
     <!-- General -->
-    <string name="app_name">Lista</string>
+    <string name="app_name">Controle de gastos</string>
     <string name="yes">Sim</string>
     <string name="no">Não</string>
     <string name="cancel">Cancelar</string>

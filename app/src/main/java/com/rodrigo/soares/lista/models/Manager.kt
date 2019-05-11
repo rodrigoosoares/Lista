@@ -3,7 +3,7 @@ package com.rodrigo.soares.lista.models
 import java.io.*
 import java.util.*
 
-class Gerenciador : Serializable {
+class Manager : Serializable {
     val listas: ArrayList<Lista>
 
     init {
@@ -30,7 +30,7 @@ class Gerenciador : Serializable {
             gerenciador.close()
             arquivoLeitura.close()
 
-            salvarGerenciadorBD(gerenciador.readObject() as Gerenciador)
+            salvarGerenciadorBD(gerenciador.readObject() as Manager)
         } catch (e: Exception) {
             e.printStackTrace()
         }
@@ -39,20 +39,20 @@ class Gerenciador : Serializable {
 
     /**
      * Salva os dados do gerenciador no banco de dados.
-     * @param gerenciador - Objeto Gerenciador a ser salvo.
+     * @param gerenciador - Objeto Manager a ser salvo.
      */
-    private fun salvarGerenciadorBD(gerenciador: Gerenciador) {
+    private fun salvarGerenciadorBD(gerenciador: Manager) {
         //IMPLEMENTAR
     }
 
     /**
-     * Salva o objeto Gerenciador em um arquivo lista.lst.
+     * Salva o objeto Manager em um arquivo lista.lst.
      * @return boolean - Resposta se a ação dei certo ou não.
      */
     fun salvarGerenciadorArquivo(): Boolean {
         try {
             // SALVAR AS INFORMAÇÕES DO BANCO DE DADOS
-            val gerenciador = Gerenciador()
+            val gerenciador = Manager()
 
             val arquivoGrav = FileOutputStream("lists.lst")
 

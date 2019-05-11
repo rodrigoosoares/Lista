@@ -8,6 +8,7 @@ import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.view.Menu
 import android.view.MenuItem
+import android.view.WindowManager
 import com.rodrigo.soares.lista.R
 import com.rodrigo.soares.lista.adapters.RecyclerViewItemsAdapter
 import com.rodrigo.soares.lista.dao.impl.ItemDAO
@@ -81,7 +82,7 @@ class SelectedListActivity : AppCompatActivity() {
         setSupportActionBar(toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setDisplayShowHomeEnabled(true)
-        window.statusBarColor = ResourcesCompat.getColor(resources, R.color.colorDark, null)
+        window.statusBarColor = ResourcesCompat.getColor(resources, R.color.colorPrimaryDark, null)
 
         mPresenter = SelectedListPresenter(this)
         mConnection = DBConnection(this)
@@ -89,7 +90,6 @@ class SelectedListActivity : AppCompatActivity() {
         selectedList = intent.getSerializableExtra(SELECTED_LIST_EXTRA) as Lista
         mAdapter = RecyclerViewItemsAdapter(this,items)
 
-        supportActionBar?.title = selectedList?.titulo
         items.addAll(mPresenter!!.getAllItems(itemDao!!, selectedList!!))
         mPresenter!!.setUpDragNDropRecyclerView(mAdapter!!)
         mPresenter!!.setListNameTitle(selectedList!!)
@@ -115,5 +115,4 @@ class SelectedListActivity : AppCompatActivity() {
         val REQUEST_INSERT = 0
         val LIST_TO_EDIT = "editList"
     }
-
 }
